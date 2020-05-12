@@ -122,9 +122,63 @@
 </template>
 
 <script>
+    import axios from 'axios'
+    import {apiHost} from '../../utils'
+    Vue.http = apiHost
+
     export default {
+        data() {
+            return {
+              profile: {
+                name: '',
+                email: '',
+                admin: 0,
+              },
+              token: localStorage.getItem('Token'),
+              url: localStorage.getItem('url'),
+              page: {
+                active: '',
+                collapse: '',
+              },
+            }
+        },
         mounted() {
-            console.log('Component mounted.')
+            axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+            this.getProfile()
+        },
+        methods: {
+            setActiveNav: function(){
+                var pathname = window.location.pathname
+                var patharr = pathname.split("/");
+                if(patharr.length > 1){
+                    if(patharr[1] === '') this.page.active = 'dashboard'
+                    else this.page.active = patharr[1]
+                    console.log(this.page.active);
+                }
+            },
+
+            getProfile: function() {
+                if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
+                axios.get(`${apiHost}profile/${this.url}`)
+                .then(resp => {
+                    if(resp.data.data){
+                        this.profile = resp.data.data
+                    }
+                    console.log(resp);
+                })
+
+            },
+
+            Logout: function() {
+                localStorage.removeItem('Token')
+                localStorage.removeItem('url')
+                localStorage.removeItem('yasha')
+                this.$toastr('success', 'Logout Sukses', 'Information')
+                setTimeout(() => {
+                    window.location.href = "/login"
+                }, 1500)
+            }
+
         }
     }
 </script>

@@ -2267,6 +2267,9 @@ Vue.http = _utils__WEBPACK_IMPORTED_MODULE_1__["apiHost"];
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils */ "./resources/js/utils/index.js");
 //
 //
 //
@@ -2390,9 +2393,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
+Vue.http = _utils__WEBPACK_IMPORTED_MODULE_1__["apiHost"];
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      profile: {
+        name: '',
+        email: '',
+        admin: 0
+      },
+      token: localStorage.getItem('Token'),
+      url: localStorage.getItem('url'),
+      page: {
+        active: '',
+        collapse: ''
+      }
+    };
+  },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['Authorization'] = "Bearer ".concat(this.token);
+    this.getProfile();
+  },
+  methods: {
+    setActiveNav: function setActiveNav() {
+      var pathname = window.location.pathname;
+      var patharr = pathname.split("/");
+
+      if (patharr.length > 1) {
+        if (patharr[1] === '') this.page.active = 'dashboard';else this.page.active = patharr[1];
+        console.log(this.page.active);
+      }
+    },
+    getProfile: function getProfile() {
+      var _this = this;
+
+      if (!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas';
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(_utils__WEBPACK_IMPORTED_MODULE_1__["apiHost"], "profile/").concat(this.url)).then(function (resp) {
+        if (resp.data.data) {
+          _this.profile = resp.data.data;
+        }
+
+        console.log(resp);
+      });
+    },
+    Logout: function Logout() {
+      localStorage.removeItem('Token');
+      localStorage.removeItem('url');
+      localStorage.removeItem('yasha');
+      this.$toastr('success', 'Logout Sukses', 'Information');
+      setTimeout(function () {
+        window.location.href = "/login";
+      }, 1500);
+    }
   }
 });
 
