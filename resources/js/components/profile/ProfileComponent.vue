@@ -54,7 +54,7 @@
                 <div class="col-md-12 pr-1">
                   <div class="form-group">
                     <label>Password Lama</label>
-                    <input type="password" class="form-control" v-model="pass.old">
+                    <input :disabled="formLoading" type="password" class="form-control" v-model="pass.old">
                   </div>
                 </div>
               </div>
@@ -62,7 +62,7 @@
                 <div class="col-md-12 pr-1">
                   <div class="form-group">
                     <label>Password Baru</label>
-                    <input type="password" class="form-control" v-model="pass.new">
+                    <input :disabled="formLoading" type="password" class="form-control" v-model="pass.new">
                   </div>
                 </div>
               </div>
@@ -70,12 +70,12 @@
                 <div class="col-md-12 pr-1">
                   <div class="form-group">
                     <label>Confirm Password Baru</label>
-                    <input type="password" class="form-control" v-model="pass.conf">
+                    <input :disabled="formLoading" type="password" class="form-control" v-model="pass.conf">
                   </div>
                 </div>
               </div>
               <div class="col-md-12 pl-1">
-                <button :disabled="!validFormPassw ? true : loading " class="btn btn-primary btn-block form-control active" @click="EditPassword(input)"><i class="now-ui-icons education_atom"></i> Ganti Password</button>
+                <button :disabled="!validFormPassw ? true : formLoading " class="btn btn-primary btn-block form-control active" @click="EditPassword(pass)"><i class="now-ui-icons education_atom"></i> Ganti Password</button>
               </div>
           </div>
         </div>
@@ -100,7 +100,7 @@
             <p class="description text-center">{{ this.profile.about_me }}</p>
           </div>
           <div class="col-md-12 pl-1">
-            <button :disabled="loading " class="btn btn-primary btn-block form-control active" @click="Logout()"><i class="now-ui-icons education_atom"></i> Logout</button>
+            <button :disabled="loading?true: formLoading " class="btn btn-primary btn-block form-control active" @click="Logout()"><i class="now-ui-icons education_atom"></i> Logout</button>
           </div>
         </div>
       </div>
@@ -122,17 +122,18 @@
                 <div class="pl-1">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
-                    <input v-bind:disabled="loading" v-model="input.email" type="email" class="form-control" placeholder="Email">
+                    <input v-bind:disabled="formLoading" v-model="input.email" type="email" class="form-control" placeholder="Email">
                   </div>
                 </div>
                 <div class="pl-1">
                   <div class="form-group">
                     <label for="password">Password</label>
-                    <input v-bind:disabled="loading" v-model="input.password" type="password" class="form-control" placeholder="password">
+                    <input v-bind:disabled="formLoading" v-model="input.password" type="password" class="form-control" placeholder="password">
                   </div>
                 </div>
                 <div class="col-md-12 pl-1">
-                  <button class="btn btn-primary btn-block form-control active" @click="LoginForm(input)"><i class="now-ui-icons education_atom"></i> Login</button>
+                  <button :disabled="formLoading" class="btn btn-primary btn-block form-control active" @click="LoginForm(input)"><i class="now-ui-icons education_atom"></i> Login</button>
+                  <span v-show="formLoading" >Ulangi Setelah  {{ falseLogin / 1000 }} detik</span>
                 </div>
             </div>
           </div>
@@ -183,7 +184,7 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    // import axios from 'axios'
     import {apiHost} from '../../utils'
     Vue.http = apiHost
 
@@ -209,6 +210,9 @@
               isLogin: 0,
               loading: false,
               formLoading: false,
+              falseLogin : 0,
+              tempFalse : 1000
+
             }
         },
         mounted() {
@@ -230,23 +234,25 @@
                 if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
                 axios.get(`${apiHost}profile/get-data/${this.url}`)
                 .then(resp => {
-                    console.log(resp);
                     if(resp.data){
-                        this.profile = resp.data
-                        this.isLogin = 1
-                        console.log(this.profile);
+                        if(!resp.data.isLogin){
+                            this.isLogin = 0
+                        }else{
+                            this.profile = resp.data
+                            this.isLogin = 1
+                        }
+                        this.formLoading = true
                         setTimeout(() => {
                             this.loading = false
+                            this.formLoading = false
                         }, 1500)
-                    }else if(!resp.data.isLogin){
-                        this.isLogin = 0
                     }
                 })
 
             },
 
             LoginForm: function(dat) {
-                this.loading = true
+                this.formLoading = true
                 axios.post(`${apiHost}auth/login`,{
                     password: dat.password,
                     email: dat.email
@@ -254,22 +260,36 @@
                 .then(resp => {
                     if(resp.data.data.error === 1){
                       this.$toastr('error', 'Username atau Password Salah', 'Error Information')
-                      this.loading = false
+                      setTimeout(() => {
+                          this.formLoading = false
+                      }, 2500)
                     }else{
                       localStorage.setItem('Token', resp.data.data.token)
                       localStorage.setItem('url', resp.data.data.url)
-                      this.$toastr('success', 'Login Sukses ', 'Information')
-                      setInterval(() => {
-                          this.isLogin = 1
-                          this.loading = false
-                      }, 1500);
+                      this.$toastr('success', 'Login Sukses x', 'Information')
+                      setTimeout(() => {
+                          this.getProfile()
+                      }, 500);
                     }
                 }).catch(error => {
-                    this.loading = false
-                    this.text = 'Login'
-                    this.$toastr('error', 'Username atau Password Salah', 'Error Information')
+                    this.tempFalse = this.tempFalse * 2
+                    this.falseLogin = this.tempFalse
+                    setTimeout(() => {
+                        this.formLoading = false
+                    }, this.falseLogin)
+                    this.countDownTimer()
+                    this.$toastr('error', 'Username atau Password Salahx', 'Error Information')
                 })
 
+            },
+
+            countDownTimer() {
+                if(this.falseLogin > 0) {
+                    setTimeout(() => {
+                        this.falseLogin -= 1000
+                        this.countDownTimer()
+                    }, 1000)
+                }
             },
 
             EditProfile: function(dat) {
@@ -282,20 +302,43 @@
                     headers: {'Content-Type': 'multipart/form-data'},
                 })
                 .then(resp => {
-                    console.log(resp);
                     if(resp.data.error === 1){
                       this.$toastr('error', 'Gagal Ganti Profile', 'Error Information')
                       this.formLoading = false
-                      console.log('satu');
                     }else{
-                      console.log('nol');
-                      this.$toastr('success', 'resp.data.pesan' , 'Information')
+                      this.$toastr('success', resp.data.pesan , 'Information')
                       setInterval(() => {
                           this.formLoading = false
                       }, 1500);
                     }
                 }).catch(error => {
                     this.$toastr('error', 'Gagal Ganti Profile', 'Error Information')
+                })
+
+            },
+
+            EditPassword: function(dat) {
+                this.formLoading = true
+                this.formData = new FormData()
+                for( var key in dat ){
+                    this.formData.append(key, dat[key])
+                }
+                axios.post(`${apiHost}profile/update-passwd/${this.url}`, this.formData, {
+                    headers: {'Content-Type': 'multipart/form-data'},
+                })
+                .then(resp => {
+                    console.log(resp);
+                    if(resp.data.error === 1){
+                      this.$toastr('error', resp.data.pesan , 'Error Information')
+                      this.formLoading = false
+                    }else{
+                      this.$toastr('success', resp.data.pesan , 'Information')
+                      setTimeout(() => {
+                          this.formLoading = false
+                      }, 1500);
+                    }
+                }).catch(error => {
+                    this.$toastr('error', 'Gagal Update Password', 'Error Information')
                 })
 
             },

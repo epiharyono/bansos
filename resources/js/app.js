@@ -1,14 +1,10 @@
 
-// require('./bootstrap');
-
 window.Vue = require('vue');
-
 import VueToastr from '@deveodk/vue-toastr'
 import '@deveodk/vue-toastr/dist/@deveodk/vue-toastr.css'
 Vue.use(VueToastr)
+require('./bootstrap');
 
-// import axios from 'axios'
-// Vue.use(axios)
 
 Vue.component('navbar-component', require('./components/layouts/NavbarComponent.vue').default);
 Vue.component('footer-component', require('./components/layouts/FooterComponent.vue').default);

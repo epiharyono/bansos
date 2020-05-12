@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Auth;
 
 class ProfileController extends Controller
@@ -27,6 +28,7 @@ class ProfileController extends Controller
               'name'  => $data->name,
               'email'  => $data->email,
               'about_me'  => $data->about_me,
+              'isLogin' => 1
             ];
         }else $datas = '';
 
@@ -41,5 +43,34 @@ class ProfileController extends Controller
           'about_me'  => $req->about_me,
         ]);
         return ['error'=>0,'pesan'=>'UPdate Profile Berhasil'];
+    }
+
+    static function UpdatePassword($req){
+        if(\Request::isMethod('POST')){
+            $old  = $req->old;
+            $new  = $req->new;
+            $confirm  = $req->conf;
+            if($new != $confirm){
+                return ['error'=>1, 'pesan'=>'Confirmasi Password Salah'];
+            }else{
+                $pass = Hash::make($old);
+                if (Auth::attempt(array('email' => Auth::user()->email, 'password' => $old))){
+                    if(Auth::check()){
+                        DB::table('users')->where('id',Auth::id())->update([
+                          'password'  => Hash::make($new),
+                        ]);
+                        $pesan  = 'Password Berhasil Diupdate';
+                        $error  = 0;
+                    }else{
+                        $pesan  = 'Update Password Gagal, Data Tidak Ditemukan';
+                        $error  = 1;
+                    }
+                }else{
+                    $pesan  = 'Update Password Gagal, Data Tidak Ditemukan';
+                    $error  = 1;
+                }
+                return ['error'=>$error, 'pesan'=>$pesan];
+            }
+        }
     }
 }

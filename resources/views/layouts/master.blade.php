@@ -37,6 +37,8 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAY0GYbFosf3LOpV_e_Puid1Ex79S4NnNw"></script>
   <script src="{{ asset(mix('js/bansos.js')) }}"></script>
   <script src="{{ asset(mix('js/app.js')) }}"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-toastr/dist/vue-toastr.umd.min.js"></script>
 </body>
 
 </html>

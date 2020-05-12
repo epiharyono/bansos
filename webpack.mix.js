@@ -30,6 +30,8 @@ const mix = require('laravel-mix');
    'resources/assets/js/plugins/chartjs.min.js',
    'resources/assets/js/plugins/bootstrap-notify.js',
    // 'resources/assets/js/now-ui-dashboard.min.js',
-   'resources/assets/demo/demo.js'
+   'resources/assets/demo/demo.js',
+   // 'https://unpkg.com/vue/dist/vue.js',
+   // 'https://unpkg.com/vue-toastr/dist/vue-toastr.umd.min.js'
  ],
  'public/js/bansos.js').version();

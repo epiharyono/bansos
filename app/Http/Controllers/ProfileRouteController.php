@@ -27,6 +27,7 @@ class ProfileRouteController extends Controller
     public function IndexRouteDua($satu,$dua, Request $req){
         if($satu == 'get-data') return Profile::IndexMyProfile();
         elseif($satu == 'edit-data') return Profile::EditDataProfile($req);
+        elseif($satu == 'update-passwd') return Profile::UpdatePassword($req);
         else{
             if(Auth::id() != 1) return redirect('/');
             return 'IndexRouteDua '.$satu.' - '.$dua;
