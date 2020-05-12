@@ -7,6 +7,16 @@ Route::group(['prefix'=>'/'], function() {
     Route::get('/home','HomeController@index');
 });
 
+Route::group(['prefix'=>'data','middleware'=>'api'], function() {
+    Route::get('/','DataRouteController@index');
+    Route::get('/{satu}','DataRouteController@IndexRouteSatu');
+    Route::get('/{satu}/{dua}','DataRouteController@IndexRouteDua');
+    Route::get('/{satu}/{dua}/{tiga}','DataRouteController@IndexRouteTiga');
+    Route::post('/{satu}','DataRouteController@IndexRouteSatu');
+    Route::post('/{satu}/{dua}','DataRouteController@IndexRouteDua');
+    Route::post('/{satu}/{dua}/{tiga}','DataRouteController@IndexRouteTiga');
+});
+
 Route::group(['prefix'=>'profile','middleware'=>'api'], function() {
     Route::get('/','ProfileRouteController@index');
     Route::get('/{satu}','ProfileRouteController@IndexRouteSatu');

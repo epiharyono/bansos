@@ -10,16 +10,10 @@
               <p>Dashboard</p>
             </a>
           </li>
-          <li>
-            <a href="/">
+          <li class=" " v-bind:class="{ active: page.active == 'data' }">
+            <a :href="`${'/data/entri'+this.url}`">
               <i class="now-ui-icons education_atom"></i>
-              <p>Icons</p>
-            </a>
-          </li>
-          <li>
-            <a href="/">
-              <i class="now-ui-icons location_map-big"></i>
-              <p>Maps</p>
+              <p>Data Entri</p>
             </a>
           </li>
           <li class=" " v-bind:class="{ active: page.active == 'profile' }">

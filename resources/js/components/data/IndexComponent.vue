@@ -12,20 +12,69 @@
       <div v-show="isLogin" class="col-md-8">
         <div class="card">
           <div class="card-header">
-            <h5 class="title">Edit Profile</h5>
+            <h5 class="title">Data Entri</h5>
           </div>
           <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-md-5 pr-1">
+                  <div class="form-group">
+                    <label>Company (disabled)</label>
+                    <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc.">
+                  </div>
+                </div>
+                <div class="col-md-3 px-1">
+                  <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" class="form-control" placeholder="Username" value="michael23">
+                  </div>
+                </div>
+                <div class="col-md-4 pl-1">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" placeholder="Email">
+                  </div>
+                </div>
+              </div>
               <div class="row">
                 <div class="col-md-6 pr-1">
                   <div class="form-group">
-                    <label>Email</label>
-                    <input :disabled="formLoading" type="email" class="form-control" v-model="profile.email" placeholder="Email....">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" placeholder="Company" value="Mike">
                   </div>
                 </div>
                 <div class="col-md-6 pl-1">
                   <div class="form-group">
-                    <label>Nama</label>
-                    <input :disabled="formLoading" type="text" class="form-control" v-model="profile.name" placeholder="Name....">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" placeholder="Last Name" value="Andrew">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 pr-1">
+                  <div class="form-group">
+                    <label>City</label>
+                    <input type="text" class="form-control" placeholder="City" value="Mike">
+                  </div>
+                </div>
+                <div class="col-md-4 px-1">
+                  <div class="form-group">
+                    <label>Country</label>
+                    <input type="text" class="form-control" placeholder="Country" value="Andrew">
+                  </div>
+                </div>
+                <div class="col-md-4 pl-1">
+                  <div class="form-group">
+                    <label>Postal Code</label>
+                    <input type="number" class="form-control" placeholder="ZIP Code">
                   </div>
                 </div>
               </div>
@@ -33,57 +82,14 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label>About Me</label>
-                    <textarea :disabled="formLoading" placeholder="About Me" rows="4" cols="80" v-model="profile.about_me" class="form-control">{{ this.profile.about_me }}</textarea>
+                    <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description" value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea>
                   </div>
                 </div>
               </div>
-              <div class="col-md-12 pl-1">
-                <button :disabled="!validFormProfile ? true : formLoading " class="btn btn-primary btn-block form-control active" @click="EditProfile(profile)"><i class="now-ui-icons education_atom"></i> Edit Profile</button>
-              </div>
+            </form>
           </div>
         </div>
-
-
-
-        <div class="card">
-          <div class="card-header">
-            <h5 class="title">Edit Password</h5>
-          </div>
-          <div class="card-body">
-              <div class="row">
-                <div class="col-md-12 pr-1">
-                  <div class="form-group">
-                    <label>Password Lama</label>
-                    <input type="password" class="form-control" v-model="pass.old">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12 pr-1">
-                  <div class="form-group">
-                    <label>Password Baru</label>
-                    <input type="password" class="form-control" v-model="pass.new">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12 pr-1">
-                  <div class="form-group">
-                    <label>Confirm Password Baru</label>
-                    <input type="password" class="form-control" v-model="pass.conf">
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-12 pl-1">
-                <button :disabled="!validFormPassw ? true : loading " class="btn btn-primary btn-block form-control active" @click="EditPassword(input)"><i class="now-ui-icons education_atom"></i> Ganti Password</button>
-              </div>
-          </div>
-        </div>
-
-
-
       </div>
-
       <div v-show="isLogin" class="col-md-4">
         <div class="card card-user">
           <div class="image">
@@ -93,18 +99,32 @@
             <div class="author">
               <a href="#">
                 <img class="avatar border-gray" src="../../../assets/img/mike.jpg" alt="...">
-                <h5 class="title">{{ this.profile.name }}</h5>
+                <h5 class="title">Mike Andrew</h5>
               </a>
-              <p class="description">{{ this.profile.email }}</p>
+              <p class="description">
+                michael24
+              </p>
             </div>
-            <p class="description text-center">{{ this.profile.about_me }}</p>
+            <p class="description text-center">
+              "Lamborghini Mercy <br>
+              Your chick she so thirsty <br>
+              I'm in that two seat Lambo"
+            </p>
           </div>
-          <div class="col-md-12 pl-1">
-            <button :disabled="loading " class="btn btn-primary btn-block form-control active" @click="Logout()"><i class="now-ui-icons education_atom"></i> Logout</button>
+          <hr>
+          <div class="button-container">
+            <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
+              <i class="fab fa-facebook-f"></i>
+            </button>
+            <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
+              <i class="fab fa-twitter"></i>
+            </button>
+            <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
+              <i class="fab fa-google-plus-g"></i>
+            </button>
           </div>
         </div>
       </div>
-
 
       <div v-show="!isLogin" class="col-md-6">
         <div class="card card-user">
@@ -131,9 +151,9 @@
                     <input v-bind:disabled="loading" v-model="input.password" type="password" class="form-control" placeholder="password">
                   </div>
                 </div>
-                <div class="col-md-12 pl-1">
-                  <button class="btn btn-primary btn-block form-control active" @click="LoginForm(input)"><i class="now-ui-icons education_atom"></i> Login</button>
-                </div>
+                    <div class="col-md-12 pl-1">
+                      <button class="btn btn-primary btn-block form-control active" @click="LoginForm(input)"><i class="now-ui-icons education_atom"></i> Login</button>
+                    </div>
             </div>
           </div>
           <hr>
@@ -193,22 +213,15 @@
               profile: {
                 name: '',
                 email: '',
-                about_me: '',
                 admin: 0,
               },
               input: {
 
               },
-              pass: {
-                old: 'password lama',
-                new: 'passwordbaru',
-                conf: 'passwordbaru'
-              },
               token: localStorage.getItem('Token'),
               url: localStorage.getItem('url'),
               isLogin: 0,
-              loading: false,
-              formLoading: false,
+              loading: false
             }
         },
         mounted() {
@@ -223,6 +236,7 @@
                 if(patharr.length > 1){
                     if(patharr[1] === '') this.page.active = 'dashboard'
                     else this.page.active = patharr[1]
+                    console.log(this.page.active);
                 }
             },
 
@@ -230,28 +244,29 @@
                 if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
                 axios.get(`${apiHost}profile/get-data/${this.url}`)
                 .then(resp => {
-                    console.log(resp);
                     if(resp.data){
-                        this.profile = resp.data
+                        this.profile = resp.data.data
                         this.isLogin = 1
-                        console.log(this.profile);
                         setTimeout(() => {
                             this.loading = false
-                        }, 1500)
+                        }, 1500);
                     }else if(!resp.data.isLogin){
                         this.isLogin = 0
                     }
+                    console.log(resp);
                 })
 
             },
 
             LoginForm: function(dat) {
                 this.loading = true
+                console.log(dat);
                 axios.post(`${apiHost}auth/login`,{
                     password: dat.password,
                     email: dat.email
                 })
                 .then(resp => {
+                  console.log(resp);
                     if(resp.data.data.error === 1){
                       this.$toastr('error', 'Username atau Password Salah', 'Error Information')
                       this.loading = false
@@ -259,9 +274,8 @@
                       localStorage.setItem('Token', resp.data.data.token)
                       localStorage.setItem('url', resp.data.data.url)
                       this.$toastr('success', 'Login Sukses ', 'Information')
-                      setInterval(() => {
+                      setTimeout(() => {
                           this.isLogin = 1
-                          this.loading = false
                       }, 1500);
                     }
                 }).catch(error => {
@@ -272,55 +286,16 @@
 
             },
 
-            EditProfile: function(dat) {
-                this.formLoading = true
-                this.formData = new FormData()
-                for( var key in dat ){
-                    this.formData.append(key, dat[key])
-                }
-                axios.post(`${apiHost}profile/edit-data/${this.url}`, this.formData, {
-                    headers: {'Content-Type': 'multipart/form-data'},
-                })
-                .then(resp => {
-                    console.log(resp);
-                    if(resp.data.error === 1){
-                      this.$toastr('error', 'Gagal Ganti Profile', 'Error Information')
-                      this.formLoading = false
-                      console.log('satu');
-                    }else{
-                      console.log('nol');
-                      this.$toastr('success', 'resp.data.pesan' , 'Information')
-                      setInterval(() => {
-                          this.formLoading = false
-                      }, 1500);
-                    }
-                }).catch(error => {
-                    this.$toastr('error', 'Gagal Ganti Profile', 'Error Information')
-                })
-
-            },
-
             Logout: function() {
-                this.loading = true
                 localStorage.removeItem('Token')
                 localStorage.removeItem('url')
                 localStorage.removeItem('yasha')
                 this.$toastr('success', 'Logout Sukses', 'Information')
                 setTimeout(() => {
-                    this.isLogin = 0
-                    this.loading = false
+                    window.location.href = "/login"
                 }, 1500)
             }
 
-        },
-
-        computed: {
-            validFormPassw() {
-                return this.pass.old != '' && this.pass.new != '' && this.pass.conf != '' && this.pass.new == this.pass.conf
-            },
-            validFormProfile() {
-                return this.profile.name != '' && this.profile.email != ''
-            },
-        },
+        }
     }
 </script>
