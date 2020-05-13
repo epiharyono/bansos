@@ -38,7 +38,7 @@
                 </div>
               </div>
               <div class="col-md-12 pl-1">
-                <button :disabled="!validFormProfile ? true : formLoading " class="btn btn-primary btn-block form-control active" @click="EditProfile(profile)"><i class="now-ui-icons education_atom"></i> Edit Profile</button>
+                <button :disabled="!validFormProfile ? true : formLoading " class="btn btn-primary btn-block form-control active" @click="EditProfile(profile)"><i class="now-ui-icons files_single-copy-04"></i> Edit Profile</button>
               </div>
           </div>
         </div>
@@ -75,7 +75,7 @@
                 </div>
               </div>
               <div class="col-md-12 pl-1">
-                <button :disabled="!validFormPassw ? true : formLoading " class="btn btn-primary btn-block form-control active" @click="EditPassword(pass)"><i class="now-ui-icons education_atom"></i> Ganti Password</button>
+                <button :disabled="!validFormPassw ? true : formLoading " class="btn btn-primary btn-block form-control active" @click="EditPassword(pass)"><i class="now-ui-icons files_single-copy-04"></i> Ganti Password</button>
               </div>
           </div>
         </div>
@@ -100,7 +100,7 @@
             <p class="description text-center">{{ this.profile.about_me }}</p>
           </div>
           <div class="col-md-12 pl-1">
-            <button :disabled="loading?true: formLoading " class="btn btn-primary btn-block form-control active" @click="Logout()"><i class="now-ui-icons education_atom"></i> Logout</button>
+            <button :disabled="loading?true: formLoading " class="btn btn-primary btn-block form-control active" @click="Logout()"><i class="now-ui-icons media-1_button-power"></i> Logout</button>
           </div>
         </div>
       </div>
@@ -221,14 +221,6 @@
             this.getProfile()
         },
         methods: {
-            setActiveNav: function(){
-                var pathname = window.location.pathname
-                var patharr = pathname.split("/");
-                if(patharr.length > 1){
-                    if(patharr[1] === '') this.page.active = 'dashboard'
-                    else this.page.active = patharr[1]
-                }
-            },
 
             getProfile: function() {
                 if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
@@ -269,6 +261,8 @@
                       this.$toastr('success', 'Login Sukses x', 'Information')
                       setTimeout(() => {
                           this.getProfile()
+                          this.isLogin = 1
+                          this.formLoading = false
                       }, 500);
                     }
                 }).catch(error => {

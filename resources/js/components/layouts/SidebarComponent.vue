@@ -10,10 +10,16 @@
               <p>Dashboard</p>
             </a>
           </li>
-          <li class=" " v-bind:class="{ active: page.active == 'data' }">
-            <a :href="`${'/data/entri'+this.url}`">
+          <li class=" " v-bind:class="{ active: page.two == 'entri-bansos' }">
+            <a :href="`${'/data/entri-bansos/'+this.url}`">
               <i class="now-ui-icons education_atom"></i>
-              <p>Data Entri</p>
+              <p>Data Entri Bansos</p>
+            </a>
+          </li>
+          <li class=" " v-bind:class="{ active: page.two == 'entri-penduduk' }">
+            <a :href="`${'/data/entri-penduduk/'+this.url}`">
+              <i class="now-ui-icons education_atom"></i>
+              <p>Data Entri Penduduk</p>
             </a>
           </li>
           <li class=" " v-bind:class="{ active: page.active == 'profile' }">
@@ -45,7 +51,7 @@
               url: localStorage.getItem('url'),
               page: {
                 active: '',
-                collapse: '',
+                two: '',
               },
             }
         },
@@ -61,7 +67,8 @@
                 if(patharr.length > 1){
                     if(patharr[1] === '') this.page.active = 'dashboard'
                     else this.page.active = patharr[1]
-                    console.log(this.page.active);
+                    this.page.two = patharr[2]
+                    console.log('tes ',patharr[2]);
                 }
             },
 

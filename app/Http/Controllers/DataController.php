@@ -9,8 +9,13 @@ use Auth;
 class DataController extends Controller
 {
     static function index(){
+        $data['title']  = 'Halaman Utama Data Entri Bansos';
+        return view('bansos',$data);
+    }
+
+    static function IndexPenduduk(){
         $data['title']  = 'Halaman Utama Data Entri';
-        return view('index_data',$data);
+        return view('index_penduduk',$data);
     }
 
     static function getProfile(){

@@ -10,7 +10,7 @@
             <span class="navbar-toggler-bar bar3"></span>
           </button>
         </div>
-        <a class="navbar-brand" href="#">User Profile Oke ya</a>
+        <a class="navbar-brand" :href="'#'+this.navbarTitle">{{ this.navbarTitle }}</a>
       </div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -44,11 +44,16 @@
 </template>
 
 <script>
+
+    import {apiHost} from '../../utils'
+    Vue.http = apiHost
+
     export default {
         data() {
             return {
               token: localStorage.getItem('Token'),
               url: localStorage.getItem('url'),
+              navbarTitle: ''
             }
         },
         mounted() {
@@ -59,6 +64,16 @@
 
             getProfile: function() {
                 if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
+                axios.post(`/get-header/${this.url}`,{
+                    url: window.location.pathname
+                })
+                .then(resp => {
+                    if(resp.data){
+                        this.navbarTitle  = resp.data.nav
+                    }
+                    console.log('title: ',resp.data.nav);
+                })
+
             },
 
         }
