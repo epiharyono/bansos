@@ -42,7 +42,8 @@ class DataRouteController extends Controller
         elseif($satu == 'get-data-bansos') return Bansos::GetDatas();
         elseif($satu == 'edit-data-bansos') return Bansos::EditData($dua,$req);
         elseif($satu == 'hapus-data-bansos') return Bansos::HapusData($req);
-        elseif($satu == 'detail-bansos') return Bansos::IndexDetail($dua);
+
+        elseif($satu == 'get-bansos-detail') return Bansos::GetData($dua);
 
         else{
             if(Auth::id() != 1) return redirect('/');
@@ -52,6 +53,7 @@ class DataRouteController extends Controller
 
     public function IndexRouteTiga($satu,$dua,$tiga, Request $req){
         if($satu == '') return Bansos::ccc($dua);
+        elseif($satu == 'entri-bansos') return Bansos::IndexDetail($dua);
         elseif($satu == 'xxxxxxx' && $dua == 'debt_pay'){
             return ApiTransactionController::PaymentPayLater($tiga);
         }else{

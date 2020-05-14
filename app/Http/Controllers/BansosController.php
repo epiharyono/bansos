@@ -11,7 +11,16 @@ class BansosController extends Controller
 {
 
     static function IndexDetail($url){
-      
+        $split  = explode("-", $url);
+        $id     = $split[1];
+        $bansos = DB::table('ta_bansos')->where('id',$id)->first();
+        if($bansos){
+            $data['title']  = $bansos->judul;
+            $data['id']     = $bansos->id;
+            return view('bansos_detail',$data);
+        }else{
+            return redirect('/');
+        }
     }
 
     static function GetDatas(){
@@ -26,6 +35,23 @@ class BansosController extends Controller
         }
         if(!sizeOf($data)) $datas  = '';
         return ['authr'=>1, 'data'=>$datas];
+    }
+
+    static function GetData($url){
+        $split  = explode("-", $url);
+        $id     = $split[0];
+        $bansos = DB::table('ta_bansos')->where('id',$id)->first();
+        if($bansos){
+            $data = [
+              'id'  => $bansos->id,
+              'judul' => $bansos->judul,
+              'uraian'  => $bansos->uraian,
+            ];
+            $error = 0; $pesan = ''; $login = 1;
+        }else{
+            $error = 1; $data = ''; $pesan = 'Data Tidak Ditemukan'; $login = 0;
+        }
+        return ['error'=>$error, 'pesan'=>$pesan, 'data'=>$data, 'isLogin'=>$login];
     }
 
     static function TambahData($req){

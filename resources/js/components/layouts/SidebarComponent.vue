@@ -68,7 +68,7 @@
                     if(patharr[1] === '') this.page.active = 'dashboard'
                     else this.page.active = patharr[1]
                     this.page.two = patharr[2]
-                    console.log('tes ',patharr[2]);
+                    console.log('tes ',patharr[1]);
                 }
             },
 

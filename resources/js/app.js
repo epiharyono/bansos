@@ -16,10 +16,12 @@ Vue.component('footer-component', require('./components/layouts/FooterComponent.
 Vue.component('sidebar-component', require('./components/layouts/SidebarComponent.vue').default);
 
 Vue.component('home-component', require('./components/home/HomeComponent.vue').default);
+Vue.component('home-chart-component', require('./components/home/ChartComponent.vue').default);
 
 Vue.component('profile-component', require('./components/profile/ProfileComponent.vue').default);
 
 Vue.component('bansos-component', require('./components/data/BansosComponent.vue').default);
+Vue.component('bansos-detail-component', require('./components/data/BansosDetailComponent.vue').default);
 
 Vue.component('penduduk-component', require('./components/data/PendudukComponent.vue').default);
 

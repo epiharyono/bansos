@@ -18,7 +18,7 @@
         >
             <div v-show="!tambah" class="card">
               <div class="card-header">
-                <h4 class="card-title"> Data</h4>
+                <h4 class="card-title">  {{ bansos.judul }}</h4>
               </div>
               <div class="card-body">
                 <div class="col-md-2 pl-1 pull-right">
@@ -31,23 +31,6 @@
                       <th>Uraian</th>
                       <th class="td-actions text-right">Act</th>
                     </thead>
-                    <tbody>
-                      <tr v-for="(dat, index) in data">
-                        <td>{{ dat.judul }}</td>
-                        <td>{{ dat.uraian }}</td>
-                        <td class="td-actions text-right">
-                          <button @click="btnLihatDetail(dat)" type="button" rel="tooltip" class="btn btn-success btn-link">
-                            <i class="now-ui-icons ui-1_send"></i>
-                          </button>
-                          <button @click="btnEdit(dat)" type="button" rel="tooltip" class="btn btn-success btn-link" data-original-title="" title="">
-                            <i class="now-ui-icons shopping_tag-content"></i>
-                          </button>
-                          <button @click="btnDelConfirm(dat)" type="button" rel="tooltip" class="btn btn-danger btn-link" data-original-title="" title="">
-                            <i class="now-ui-icons ui-1_simple-remove"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
                   </table>
                 </div>
               </div>
@@ -109,8 +92,7 @@
     export default {
         data() {
             return {
-              data: [],
-              desa: [],
+              bansos: {},
               input: {
                 judul: '',
                 uraian: '',
@@ -126,13 +108,16 @@
 
             }
         },
+        props: ['idb'],
         components: {
 
         },
         mounted() {
             this.loading = true
             axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
-            this.getDatas()
+            // this.getDatas()
+            console.log('id bansos : ', this.idb);
+            this.getDataBansos()
         },
         methods: {
 
@@ -145,19 +130,16 @@
                 this.clearForm()
             },
 
-            btnEdit: function(dat){
+            getDataBansos: function(dat){
                 if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
-                axios.get(`${apiHost}data/edit-data-bansos/${dat.id}-${this.url}`)
+                axios.get(`${apiHost}data/get-bansos-detail/${this.idb}-${this.url}`)
                 .then(resp => {
-                    console.log(resp);
-                    if(resp.data){
-                        if(resp.data.error){
-                            this.$toastr('error', resp.data.pesan , 'Error Information')
-                        }else{
-                            this.input = resp.data.data
-                            this.tambah = true
-                            this.edit = true
-                        }
+                    if(resp.data.data){
+                        this.bansos  = resp.data.data
+                        this.isLogin = resp.data.isLogin
+                        this.loading = false
+                    }else{
+                        window.location.href = `/data/entri-bansos/${this.url}`
                     }
                 }).catch(error => {
                     this.$toastr('error', 'Data Tidak Ditemukan', 'Error Information')
@@ -174,7 +156,7 @@
                 if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
                 axios.get(`${apiHost}data/get-data-bansos/${this.url}`)
                 .then(resp => {
-                    console.log(resp);
+                    // console.log(resp);
                     if(resp.data){
                         if(!resp.data.authr){
                             this.isLogin = 0
