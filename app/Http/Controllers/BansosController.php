@@ -98,4 +98,23 @@ class BansosController extends Controller
             else return ['error'=>1,'pesan'=>'Hapus Data Gagal','data'=>self::GetDatas()];
         }
     }
+
+    static function GetChartData(){
+        $bansos = DB::table('ta_bansos')->get();
+        foreach($bansos as $dat){
+            $data[]  = [
+              'id'  => $dat->id,
+              'judul' => $dat->judul
+            ];
+        }
+        if(!sizeOf($bansos)) $data = '';
+
+        return $data;
+
+    }
+
+    static function GetJenisBansos(){
+        return DB::table('ref_jenis')->get();
+    }
+
 }

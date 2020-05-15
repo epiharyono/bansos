@@ -34,4 +34,14 @@ Route::prefix('v1')->group(function () {
         Route::post('/{satu}/{dua}/{tiga}','DataRouteController@IndexRouteTiga');
     });
 
+    Route::group(['prefix'=>'guest'], function() {
+        Route::get('/','DataRouteController@index');
+        Route::get('/{satu}','DataRouteController@IndexRouteSatu');
+        Route::get('/{satu}/{dua}','DataRouteController@IndexRouteDua');
+        Route::get('/{satu}/{dua}/{tiga}','DataRouteController@IndexRouteTiga');
+        Route::post('/{satu}','DataRouteController@IndexRouteSatu');
+        Route::post('/{satu}/{dua}','DataRouteController@IndexRouteDua');
+        Route::post('/{satu}/{dua}/{tiga}','DataRouteController@IndexRouteTiga');
+    });
+
 });

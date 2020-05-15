@@ -19,10 +19,9 @@
       <sidebar-component></sidebar-component>
       <div class="main-panel" id="main-panel">
         <navbar-component></navbar-component>
-        <div class="panel-header panel-header-sm">
-            <home-chart-component></home-chart-component>
-        </div>
+        <div class="panel-header panel-header-sm"></div>
         <div class="content">
+          <home-chart-component></home-chart-component>
           <home-component></home-component>
         </div>
         <footer-component></footer-component>

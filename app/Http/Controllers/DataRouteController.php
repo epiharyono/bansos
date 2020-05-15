@@ -9,6 +9,7 @@ use Str;
 
 use App\Http\Controllers\DataController as Data;
 use App\Http\Controllers\PendudukController as Penduduk;
+use App\Http\Controllers\PenerimaController as Penerima;
 use App\Http\Controllers\WilayahController as Wilayah;
 use App\Http\Controllers\BansosController as Bansos;
 
@@ -43,7 +44,16 @@ class DataRouteController extends Controller
         elseif($satu == 'edit-data-bansos') return Bansos::EditData($dua,$req);
         elseif($satu == 'hapus-data-bansos') return Bansos::HapusData($req);
 
+        elseif($satu == 'get-jenis-bansos') return Bansos::GetJenisBansos();
         elseif($satu == 'get-bansos-detail') return Bansos::GetData($dua);
+        elseif($satu == 'get-chart-bansos') return Bansos::GetChartData();
+
+        elseif($satu == 'tambah-data-penerima-bansos') return Penerima::TambahData($req);
+        elseif($satu == 'get-data-penerima-bansos') return Penerima::GetDatas($dua);
+        elseif($satu == 'hapus-data-penerima-bansos') return Penerima::HapusData($req);
+
+        elseif($satu == 'check-nik') return Penduduk::CheckNIK($dua);
+        elseif($satu == 'cek-penerima-bansos') return Penerima::guestCekPenerimaBansos($req);
 
         else{
             if(Auth::id() != 1) return redirect('/');

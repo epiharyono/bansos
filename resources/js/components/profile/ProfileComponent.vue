@@ -3,7 +3,8 @@
       <div class="col-md-8">
         <div class="card">
           <div class="card-header">
-            <h5 class="title">Loading.....</h5>
+            <h5 class="title">Loading</h5>
+            <img v-if="loading" src="../../../assets/img/loading.gif" />
           </div>
         </div>
       </div>

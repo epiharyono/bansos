@@ -26,7 +26,105 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 ## License
 
 
-ALTER TABLE `ta_bansos` ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `uraian`, ADD `created_by` VARCHAR(255) NOT NULL AFTER `created_at`, ADD `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_by`, ADD `updated_by` VARCHAR(255) NOT NULL AFTER `updated_at`;
+
+CREATE TABLE `ta_penerima` (
+  `id` int(11) NOT NULL,
+  `id_bansos` int(11) NOT NULL,
+  `id_jenis` int(11) NOT NULL,
+  `nik` varchar(25) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `alamat` text NOT NULL,
+  `keterangan` text,
+  `blt` double NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `ta_penerima`
+--
+ALTER TABLE `ta_penerima`
+  ADD KEY `ta_penerima_idbansos` (`id_bansos`),
+  ADD KEY `ta_penerima_nik` (`nik`),
+  ADD KEY `ta_penerima_jenis` (`id_jenis`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `ta_penerima`
+--
+ALTER TABLE `ta_penerima`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `ta_penerima`
+--
+ALTER TABLE `ta_penerima`
+  ADD CONSTRAINT `ta_penerima_idbansos` FOREIGN KEY (`id_bansos`) REFERENCES `ta_bansos` (`id`),
+  ADD CONSTRAINT `ta_penerima_jenis` FOREIGN KEY (`id_jenis`) REFERENCES `ref_jenis` (`id`),
+  ADD CONSTRAINT `ta_penerima_nik` FOREIGN KEY (`nik`) REFERENCES `ta_penduduk` (`nik`);
+COMMIT;
+
+
+
+CREATE TABLE `ta_penerima` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `nik` varchar(25) NOT NULL,
+  `tempat` varchar(255) NOT NULL,
+  `tanggal` date NOT NULL,
+  `id_prov` char(2) NOT NULL,
+  `id_kab` int(11) NOT NULL,
+  `id_kec` int(11) NOT NULL,
+  `id_desa` char(10) NOT NULL,
+  `nm_prov` varchar(255) NOT NULL,
+  `nm_kab` varchar(255) NOT NULL,
+  `nm_kec` varchar(255) NOT NULL,
+  `nm_desa` varchar(255) NOT NULL,
+  `alamat` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ta_penerima`
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `ta_penerima`
+--
+ALTER TABLE `ta_penerima`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `ta_penerima`
+--
+ALTER TABLE `ta_penerima`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+COMMIT;
+
+
+ALTER TABLE `ta_penerima` ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `alamat`, ADD `created_by` VARCHAR(255) NOT NULL AFTER `created_at`, ADD `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_by`, ADD `updated_by` VARCHAR(255) NOT NULL AFTER `updated_at`;
 
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

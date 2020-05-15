@@ -3,7 +3,8 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h5 class="title">Loading.....</h5>
+            <h5 class="title">Loading</h5>
+            <img v-if="loading" src="../../../assets/img/loading.gif" />
           </div>
         </div>
       </div>
@@ -141,6 +142,19 @@
         </transition>
       </div>
 
+      <div v-show="isLogin" class="col-md-12">
+          <div class="card-body">
+              <div  class="col-sm-4">
+                  <div class="box ">
+                    <input type="file" ref="file"  multiple />
+                  </div>
+              </div>
+              <div class="col-md-12 pl-1 pull-left">
+                  <button class="btn col-md-2 btn-primary btn-block form-control active" @click="TambahFile()"><i class="now-ui-icons files_single-copy-04"></i> Simpan</button>
+              </div>
+          </div>
+
+      </div>
 
       <div v-if="!isLogin" class="row">
         <div class="col-md-12">
@@ -200,11 +214,28 @@
 
         },
         mounted() {
-            this.loading = true
+            // this.loading = true
             axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
             this.getDatas()
         },
         methods: {
+
+            TambahFile: function(dat) {
+                this.formData = new FormData()
+                for(var i = 0; i < this.$refs.file.files.length; i++ ){
+                    let file = this.$refs.file.files[i];
+                    this.formData.append('files[' + i + ']', file);
+                }
+
+                axios.post(`${apiHost}data/tambah-data-penerima-bansos/${this.url}`, this.formData, {
+                    headers: {'Content-Type': 'multipart/form-data'},
+                })
+                .then(resp => {
+                    console.log(resp);
+                }).catch(error => {
+                    this.$toastr('error', 'Gagal Tambah Data', 'Error Information')
+                })
+            },
 
             btnTambah: function(){
                 this.tambah = true

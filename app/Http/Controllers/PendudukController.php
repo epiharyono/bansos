@@ -59,4 +59,16 @@ class PendudukController extends Controller
 
         return ['error'=>0,'pesan'=>'Tambah Data Berhasil','data'=>self::GetDatas()];
     }
+
+    static function CheckNIK($url){
+        $split  = explode("-", $url);
+        $nik    = $split[0];
+        $pend   = DB::table('ta_penduduk')->where('nik',$nik)->first();
+        if($pend){
+            $identitas  = $pend->nm_prov.' '.$pend->nm_kab.' '.$pend->nm_kec.' '.$pend->nm_desa.'<br>'.$pend->alamat;
+            return ['status'=>1, 'id'=>$pend->id,'nama'=>$pend->nama,'alamat'=>$pend->alamat,'prov'=>$pend->nm_prov, 'identitas'=>$identitas];
+        }
+        else return ['status'=>0,'nama'=>'Data Tidak Ditemukan'];
+
+    }
 }
