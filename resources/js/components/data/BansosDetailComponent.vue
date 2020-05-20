@@ -309,10 +309,13 @@
                 }
                 this.formData.append('id_bansos', this.bansos.id)
 
+                let jmlF = 0
                 for(var i = 0; i < this.$refs.file.files.length; i++ ){
-                    let file = this.$refs.file.files[i];
-                    this.formData.append('files[' + i + ']', file);
+                    let file = this.$refs.file.files[i]
+                    this.formData.append('files[' + i + ']', file)
+                    jmlF++
                 }
+                this.formData.append('jmlF', jmlF)
 
                 axios.post(`${apiHost}data/tambah-data-penerima-bansos/${this.url}`, this.formData, {
                     headers: {'Content-Type': 'multipart/form-data'},

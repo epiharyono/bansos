@@ -1,6 +1,6 @@
 <?php
 
-Auth::routes();
+// Auth::routes();
 
 Route::group(['prefix'=>'/'], function() {
     Route::get('/','HomeController@index');

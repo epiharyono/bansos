@@ -36,32 +36,6 @@ class PenerimaController extends Controller
     }
 
     static function TambahData($req){
-        $jml = 0;
-        if(isset($req->files)){
-            $i = 0;
-            foreach ($req->files as $file) {
-                // $filename = $req->files->getClientOriginalExtension();
-                // $filename[] = $file[$i]->getClientOriginalExtension();
-                // $tes[] = '$filename';
-                // $$file->getClientOriginalExtension();
-                // return $file[1]->getClientOriginalExtension();
-
-                $mime  = File::mimeType($file[$i]);
-                $fileName = time().'.'.$file[$i]->getClientOriginalExtension();
-                $resume = $file[$i];
-                $filePath = Storage::disk('s3')->putFileAs(
-                    'testing',
-                    $resume,
-                    $fileName,
-                    [ 'visibility' => 'public' ]
-                );
-                // return $resume;
-                $i++;
-            }
-            // dd($filename);
-            // return [$filename];
-        }
-        return ['sasasa'];
         $cek  = DB::table('ta_penduduk')->where('nik',$req->nik)->where('id',$req->id_pend)->first();
         if($cek){
             $cekp = DB::table('ta_penerima')->where('id_jenis',$req->id_jenis)->where('nik',$cek->nik)->count();
@@ -73,7 +47,7 @@ class PenerimaController extends Controller
             $nm_desa  = DB::table('ref_villages')->where('id',$cek->id_desa)->value('name');
             if($req->id_jenis == 1) $blt  = $req->uang;
             else $blt = 0;
-            DB::table('ta_penerima')->insert([
+            $id_table  = DB::table('ta_penerima')->insertGetId([
               'id_bansos'  => $req->id_bansos,
               'id_jenis'  => $req->id_jenis,
               'blt'  => $blt,
@@ -95,19 +69,28 @@ class PenerimaController extends Controller
               'updated_by'  => json_encode(['id'=>Auth::id(), 'name'=>Auth::user()->name,'email'=>Auth::user()->email]),
             ]);
 
-            // if(isset($req->files)){
-            //     $i = 0;
-            //     foreach ($req->files as $file) {
-            //         // $filename = $req->files->getClientOriginalExtension();
-            //         $filename[] = $file[$i]->getClientOriginalExtension();
-            //         // $tes[] = '$filename';
-            //         // $$file->getClientOriginalExtension();
-            //         return $file[1]->getClientOriginalExtension();
-            //         $i++;
-            //     }
-            //     dd($filename);
-            //     // return [$filename];
-            // }
+            if(isset($req->files)){
+                $jml = $req->jmlF;
+                for($i=0; $i < $jml; $i++){
+                  foreach ($req->files as $file) {
+                      $mime  = File::mimeType($file[$i]);
+                      $fileName = time().'.'.$file[$i]->getClientOriginalExtension();
+                      $resume = $file[$i];
+                      $filePath = Storage::disk('s3')->putFileAs(
+                          'testing',
+                          $resume,
+                          $fileName,
+                          [ 'visibility' => 'public' ]
+                      );
+                      DB::table('ta_penerima_files')->insert([
+                        'id_pen'  => $id_table,
+                        'name'    => $fileName,
+                        'path'    => $filePath,
+                        'mime'    => $mime,
+                      ]);
+                  }
+                }
+            }
         }
 
         return ['error'=>0,'pesan'=>'Tambah Data Berhasil','data'=>self::GetDatas($req->id_bansos.'-caribansos')];

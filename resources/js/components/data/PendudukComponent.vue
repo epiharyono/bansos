@@ -142,7 +142,7 @@
         </transition>
       </div>
 
-      <div v-show="isLogin" class="col-md-12">
+      <div v-show="isTes" class="col-md-12">
           <div class="card-body">
               <div  class="col-sm-4">
                   <div class="box ">
@@ -206,7 +206,8 @@
               formLoading: false,
               falseLogin : 0,
               tempFalse : 1000,
-              tambah: false
+              tambah: false,
+              isTes: false
 
             }
         },
@@ -214,7 +215,7 @@
 
         },
         mounted() {
-            // this.loading = true
+            this.loading = true
             axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
             this.getDatas()
         },
@@ -222,10 +223,13 @@
 
             TambahFile: function(dat) {
                 this.formData = new FormData()
+                let jmlF = 0
                 for(var i = 0; i < this.$refs.file.files.length; i++ ){
-                    let file = this.$refs.file.files[i];
-                    this.formData.append('files[' + i + ']', file);
+                    let file = this.$refs.file.files[i]
+                    this.formData.append('files[' + i + ']', file)
+                    jmlF++
                 }
+                this.formData.append('jmlF', jmlF)
 
                 axios.post(`${apiHost}data/tambah-data-penerima-bansos/${this.url}`, this.formData, {
                     headers: {'Content-Type': 'multipart/form-data'},

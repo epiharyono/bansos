@@ -47,6 +47,9 @@
 <script>
 
     import axios from 'axios'
+    import {apiHost} from '../../utils'
+    Vue.http = apiHost
+
     export default {
         data() {
             return {
@@ -73,7 +76,7 @@
             Login: function(dat) {
                 this.loading = true
                 this.text = 'Loading...'
-                axios.post('http://localhost/api/v1/auth/login',{
+                axios.post(`${apiHost}auth/login}`,{
                     password: dat.password,
                     email: dat.email
                 })
@@ -86,7 +89,7 @@
                       localStorage.setItem('Token', resp.data.data.token)
                       localStorage.setItem('url', resp.data.data.url)
                       this.$toastr('success', 'Login Sukses ', 'Information')
-                      setInterval(() => {
+                      setTimeout(() => {
                           window.location.href = "/"
                       }, 1500);
                     }

@@ -127,4 +127,5 @@ COMMIT;
 ALTER TABLE `ta_penerima` ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `alamat`, ADD `created_by` VARCHAR(255) NOT NULL AFTER `created_at`, ADD `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_by`, ADD `updated_by` VARCHAR(255) NOT NULL AFTER `updated_at`;
 
 
+
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

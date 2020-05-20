@@ -3629,12 +3629,15 @@ Vue.http = _utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"];
       }
 
       this.formData.append('id_bansos', this.bansos.id);
+      var jmlF = 0;
 
       for (var i = 0; i < this.$refs.file.files.length; i++) {
         var file = this.$refs.file.files[i];
         this.formData.append('files[' + i + ']', file);
+        jmlF++;
       }
 
+      this.formData.append('jmlF', jmlF);
       axios.post("".concat(_utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"], "data/tambah-data-penerima-bansos/").concat(this.url), this.formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -4010,12 +4013,13 @@ Vue.http = _utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"];
       formLoading: false,
       falseLogin: 0,
       tempFalse: 1000,
-      tambah: false
+      tambah: false,
+      isTes: false
     };
   },
   components: {},
   mounted: function mounted() {
-    // this.loading = true
+    this.loading = true;
     axios.defaults.headers.common['Authorization'] = "Bearer ".concat(this.token);
     this.getDatas();
   },
@@ -4024,12 +4028,15 @@ Vue.http = _utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"];
       var _this = this;
 
       this.formData = new FormData();
+      var jmlF = 0;
 
       for (var i = 0; i < this.$refs.file.files.length; i++) {
         var file = this.$refs.file.files[i];
         this.formData.append('files[' + i + ']', file);
+        jmlF++;
       }
 
+      this.formData.append('jmlF', jmlF);
       axios.post("".concat(_utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"], "data/tambah-data-penerima-bansos/").concat(this.url), this.formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -83696,8 +83703,8 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
-                value: _vm.isLogin,
-                expression: "isLogin"
+                value: _vm.isTes,
+                expression: "isTes"
               }
             ],
             staticClass: "col-md-12"
