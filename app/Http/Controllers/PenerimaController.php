@@ -74,10 +74,10 @@ class PenerimaController extends Controller
                 for($i=0; $i < $jml; $i++){
                   foreach ($req->files as $file) {
                       $mime  = File::mimeType($file[$i]);
-                      $fileName = time().'.'.$file[$i]->getClientOriginalExtension();
+                      $fileName = date('Ymdhis').'.'.$file[$i]->getClientOriginalExtension();
                       $resume = $file[$i];
                       $filePath = Storage::disk('s3')->putFileAs(
-                          'testing',
+                          'files',
                           $resume,
                           $fileName,
                           [ 'visibility' => 'public' ]
@@ -88,6 +88,7 @@ class PenerimaController extends Controller
                         'path'    => $filePath,
                         'mime'    => $mime,
                       ]);
+                      sleep(1);
                   }
                 }
             }
@@ -100,6 +101,14 @@ class PenerimaController extends Controller
         $penerima  = DB::table('ta_penerima')->where('id',$req->id)->first();
         if($penerima){
             $id_bansos = $penerima->id_bansos;
+            if($penerima->status){
+                return ['error'=>1,'pesan'=>'Gagal Hapus Data, Data Sudah Final','data'=>''];
+            }
+            $file  = DB::table('ta_penerima_files')->where('id_pen',$penerima->id)->get();
+            foreach($file as $df){
+                Storage::disk('s3')->delete($df->path);
+            }
+            DB::table('ta_penerima_files')->where('id_pen',$penerima->id)->delete();
             DB::table('ta_penerima')->where('id',$penerima->id)->delete();
             return ['error'=>0,'pesan'=>'Data Berhasil Dihapus','data'=>self::GetDatas($id_bansos.'-caribansos')];
         }else{

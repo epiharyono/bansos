@@ -10,22 +10,34 @@
               <p>Dashboard</p>
             </a>
           </li>
-          <li class=" " v-bind:class="{ active: page.two == 'entri-bansos' }">
+          <li class=" " v-bind:class="{ active: page.two == 'entri-bansos' }" v-show="isLogin">
             <a :href="`${'/data/entri-bansos/'+this.url}`">
               <i class="now-ui-icons education_atom"></i>
               <p>Data Entri Bansos</p>
             </a>
           </li>
-          <li class=" " v-bind:class="{ active: page.two == 'entri-penduduk' }">
+          <li class=" " v-bind:class="{ active: page.two == 'entri-penduduk' }" v-show="isLogin">
             <a :href="`${'/data/entri-penduduk/'+this.url}`">
               <i class="now-ui-icons education_atom"></i>
               <p>Data Entri Penduduk</p>
             </a>
           </li>
-          <li class=" " v-bind:class="{ active: page.active == 'profile' }">
+          <li class=" " v-bind:class="{ active: page.two == 'entri-master-program' }" v-show="isLogin">
+            <a :href="`${'/data/entri-master-program/'+this.url}`">
+              <i class="now-ui-icons education_atom"></i>
+              <p>Data Program</p>
+            </a>
+          </li>
+          <li class=" " v-bind:class="{ active: page.active == 'profile' }" v-show="isLogin">
             <a :href="`${'/profile/'+this.url}`">
               <i class="now-ui-icons users_single-02"></i>
               <p>Profile</p>
+            </a>
+          </li>
+          <li class=" " v-bind:class="{ active: page.active == 'profile' }" v-show="!isLogin">
+            <a :href="`${'/profile/'+this.url}`">
+              <i class="now-ui-icons users_single-02"></i>
+              <p>Login</p>
             </a>
           </li>
         </ul>
@@ -53,12 +65,14 @@
                 active: '',
                 two: '',
               },
+              isLogin: 0
             }
         },
         mounted() {
+            this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
             axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
             this.setActiveNav()
-            this.getProfile()
+            this.chekLogin()
         },
         methods: {
             setActiveNav: function(){
@@ -68,17 +82,18 @@
                     if(patharr[1] === '') this.page.active = 'dashboard'
                     else this.page.active = patharr[1]
                     this.page.two = patharr[2]
-                    console.log('tes ',patharr[1]);
+                    // console.log('tes ',patharr[1]);
                 }
             },
 
-            getProfile: function() {
+            chekLogin: function() {
                 if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
-                axios.get(`${apiHost}profile/${this.url}`)
+                axios.get(`${apiHost}profile/is-login/${this.url}`)
                 .then(resp => {
-                    if(resp.data.data){
-                        this.profile = resp.data.data
+                    if(resp.data){
+                        this.isLogin = resp.data.isLogin
                     }
+                    console.log(resp);
                 })
 
             },

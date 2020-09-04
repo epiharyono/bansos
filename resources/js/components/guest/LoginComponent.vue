@@ -81,8 +81,9 @@
                     email: dat.email
                 })
                 .then(resp => {
+                    console.log(resp);
                     if(resp.data.data.error === 1){
-                      this.$toastr('error', 'Username atau Password Salah', 'Error Information')
+                      this.$toastr('error', 'Username atau Password Salah ', 'Error Information')
                       this.loading = false
                       this.text = 'Login'
                     }else{

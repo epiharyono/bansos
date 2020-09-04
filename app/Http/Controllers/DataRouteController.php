@@ -12,6 +12,7 @@ use App\Http\Controllers\PendudukController as Penduduk;
 use App\Http\Controllers\PenerimaController as Penerima;
 use App\Http\Controllers\WilayahController as Wilayah;
 use App\Http\Controllers\BansosController as Bansos;
+use App\Http\Controllers\MasterProgramController as MProgram;
 
 class DataRouteController extends Controller
 {
@@ -33,6 +34,14 @@ class DataRouteController extends Controller
         elseif($satu == 'entri-penduduk') return Data::IndexPenduduk();
         elseif($satu == 'tambah-data-penduduk') return Penduduk::TambahDataPenduduk($req);
         elseif($satu == 'get-data-penduduk') return Penduduk::GetDatas();
+
+        elseif($satu == 'get-data-sumber-dana') return Data::GetSumberDana();
+        elseif($satu == 'entri-master-program') return Data::IndexMaster();
+        elseif($satu == 'get-data-master-program') return MProgram::GetDataMasterProgram();
+        elseif($satu == 'get-data-master-program-sumber-dana') return MProgram::GetDataMasterProgramSD($req);
+        elseif($satu == 'tambah-data-master-program') return MProgram::TambahDataMaterProgram($req);
+        elseif($satu == 'edit-data-master-program') return MProgram::EditDataMaterProgram($dua,$req);
+        elseif($satu == 'hapus-data-master-program') return MProgram::HapusDataMaterProgram($req);
 
         elseif($satu == 'get-data-provinsis') return Wilayah::getDataProvinsis();
         elseif($satu == 'get-data-kabupatens') return Wilayah::getDataKabupatens($req);

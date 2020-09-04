@@ -73,4 +73,15 @@ class ProfileController extends Controller
             }
         }
     }
+
+    static function isLogin(){
+        if(Auth::check()){
+            $lgoin  = 1;
+        }else{
+            $login  = 0;
+        }
+        $login  = Auth::id();
+        return ['isLogin' => $login];
+    }
+
 }

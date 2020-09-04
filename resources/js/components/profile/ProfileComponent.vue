@@ -93,7 +93,7 @@
           <div class="card-body">
             <div class="author">
               <a href="#">
-                <img class="avatar border-gray" src="../../../assets/img/mike.jpg" alt="...">
+                <img class="avatar border-gray" src="../../../assets/img/anambas.png" alt="Pemerintah Kabupaten Kepulauan Anambas">
                 <h5 class="title">{{ this.profile.name }}</h5>
               </a>
               <p class="description">{{ this.profile.email }}</p>
@@ -115,7 +115,7 @@
           <div class="card-body">
             <div class="author">
               <a href="#">
-                <img class="avatar border-gray" src="../../../assets/img/mike.jpg" alt="...">
+                <img class="avatar border-gray" src="../../../assets/img/anambas.png" alt="Pemerintah Kabupaten Kepulauan Anambas">
                 <h5 class="title">Silahkan Login</h5>
               </a>
             </div>
@@ -160,7 +160,7 @@
           <div class="card-body">
             <div class="author">
               <a href="#">
-                <img class="avatar border-gray" src="../../../assets/img/mike.jpg" alt="...">
+                <img class="avatar border-gray" src="../../../assets/img/anambas.png" alt="Pemerintah Kabupaten Kepulauan Anambas">
                 <h5 class="title">Silahkan Login</h5>
               </a>
             </div>
@@ -217,6 +217,7 @@
             }
         },
         mounted() {
+            if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
             this.loading = true
             axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
             this.getProfile()
@@ -224,7 +225,6 @@
         methods: {
 
             getProfile: function() {
-                if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
                 axios.get(`${apiHost}profile/get-data/${this.url}`)
                 .then(resp => {
                     if(resp.data){
@@ -240,6 +240,7 @@
                             this.formLoading = false
                         }, 1500)
                     }
+                    // console.log(resp);
                 })
 
             },
@@ -251,6 +252,7 @@
                     email: dat.email
                 })
                 .then(resp => {
+                    console.log(resp);
                     if(resp.data.data.error === 1){
                       this.$toastr('error', 'Username atau Password Salah', 'Error Information')
                       setTimeout(() => {
@@ -259,11 +261,12 @@
                     }else{
                       localStorage.setItem('Token', resp.data.data.token)
                       localStorage.setItem('url', resp.data.data.url)
-                      this.$toastr('success', 'Login Sukses x', 'Information')
+                      this.$toastr('success', 'Login Sukses ', 'Information')
                       setTimeout(() => {
-                          this.getProfile()
+                          // this.formLoading = false
+                          window.location.href = "/profile/"+this.url
                           this.isLogin = 1
-                          this.formLoading = false
+                          this.getProfile()
                       }, 500);
                     }
                 }).catch(error => {
@@ -273,7 +276,7 @@
                         this.formLoading = false
                     }, this.falseLogin)
                     this.countDownTimer()
-                    this.$toastr('error', 'Username atau Password Salahx', 'Error Information')
+                    this.$toastr('error', 'Username atau Password Salah ...', 'Error Information')
                 })
 
             },
@@ -344,9 +347,11 @@
                 localStorage.removeItem('url')
                 localStorage.removeItem('yasha')
                 this.$toastr('success', 'Logout Sukses', 'Information')
+
                 setTimeout(() => {
                     this.isLogin = 0
                     this.loading = false
+                    window.location.href = "/profile/"+this.url
                 }, 1500)
             }
 

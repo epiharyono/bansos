@@ -18,6 +18,11 @@ class DataController extends Controller
         return view('index_penduduk',$data);
     }
 
+    static function IndexMaster(){
+        $data['title']  = 'Halaman Utama Data Entri Master';
+        return view('index_master',$data);
+    }
+
     static function getProfile(){
 
         return ['sa'];
@@ -35,4 +40,20 @@ class DataController extends Controller
 
         return $datas;
     }
+
+    static function GetSumberDana(){
+        $data  = DB::table('ref_sumber_dana')->where('status',1)->get();
+        if(sizeOf($data)){
+            foreach($data as $dat){
+                $datas[] = [
+                  'id'  => $dat->id,
+                  'uraian'  => $dat->uraian,
+                ];
+            }
+        }else $datas[] = [];
+
+        return $datas;
+
+    }
+
 }

@@ -24,6 +24,20 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 ## Learning Laravel
 
 ## License
+- docker images => untuk cek image docker
+- docker pull mongo  => download docker image (bisa lihat di hub.docker.com)
+- docker container ls --all
+- docker container create --name mongoserver1 -p 8080:27017 mongo:4.1
+  port 8080 untuk bisa diakses dari luar container
+  port 27017 adalah port default mongodb pada container
+  mongo:4.1 itu adalah images dari docker
+
+- docker container create --name mongoserver2 -p 8181:27017 mongo:4.1
+- docker container start mongoserver1 mongoserver2  => untuk menjalankan docker container
+- docker container stop mongoserver1 => untuk stop docker container
+- docker container rm mongoserver1 mongoserver2
+- docker image rm mongo => untuk menghapus image docker
+
 
 
 

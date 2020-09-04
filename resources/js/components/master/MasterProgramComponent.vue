@@ -19,7 +19,7 @@
         >
             <div v-show="!tambah" class="card">
               <div class="card-header">
-                <h4 class="card-title"> Data</h4>
+                <h4 class="card-title"> Data Master Program</h4>
               </div>
               <div class="card-body">
                 <div class="col-md-2 pl-1 pull-right">
@@ -28,22 +28,15 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                      <th>Tahun</th>
                       <th>Sumber Dana</th>
-                      <th>Program</th>
                       <th>Uraian</th>
                       <th class="td-actions text-right">Act</th>
                     </thead>
                     <tbody>
                       <tr v-for="(dat, index) in data">
-                        <td>{{ dat.tahun }}</td>
-                        <td>{{ dat.uraian_sd }}</td>
-                        <td>{{ dat.uraian_prog }}</td>
+                        <td>{{ dat.sumber }}</td>
                         <td>{{ dat.uraian }}</td>
                         <td class="td-actions text-right">
-                          <button @click="btnLihatDetail(dat)" type="button" rel="tooltip" class="btn btn-success btn-link">
-                            <i class="now-ui-icons ui-1_send"></i>
-                          </button>
                           <button @click="btnEdit(dat)" type="button" rel="tooltip" class="btn btn-success btn-link" data-original-title="" title="">
                             <i class="now-ui-icons shopping_tag-content"></i>
                           </button>
@@ -65,25 +58,13 @@
         >
             <div v-show="tambah" class="card">
               <div class="card-header">
-                <h4 class="card-title"> Tambah Data Bansos  </h4>
+                <h4 class="card-title"> Tambah Data</h4>
               </div>
               <div class="card-body">
                   <div class="row">
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
-                          <select v-model="input.tahun" class="form-control custom-select">
-                            <option value="0" selected>Pilih Tahun</option>
-                            <option v-for="dath in datatahun" v-bind:value="dath.tahun">
-                              {{ dath.tahun }}
-                            </option>
-                          </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                          <select @change="getMasterProg()" v-model="input.id_sd" class="form-control custom-select">
+                          <select v-model="input.id_sd" class="form-control custom-select">
                             <option value="0" selected>Pilih Sumber Dana</option>
                             <option v-for="dat in sumberdana" v-bind:value="dat.id">
                               {{ dat.uraian }}
@@ -92,20 +73,8 @@
                       </div>
                     </div>
                   </div>
-                  <div v-show="input.id_sd != 0" class="row">
-                    <div class="col-md-8 pr-1">
-                      <div class="form-group">
-                          <select v-model="input.id_prog" class="form-control custom-select">
-                            <option value="0" selected>Pilih Program</option>
-                            <option v-for="datp in masterprog" v-bind:value="datp.id">
-                              {{ datp.uraian }}
-                            </option>
-                          </select>
-                      </div>
-                    </div>
-                  </div>
                   <div class="row">
-                    <div class="col-md-12 pr-2">
+                    <div class="col-md-8 pr-2">
                       <div class="form-group">
                         <textarea :disabled="formLoading" placeholder="Input uraian ..." rows="4" cols="80" v-model="input.uraian" class="form-control">{{ input.uraian }}</textarea>
                       </div>
@@ -146,14 +115,9 @@
               data: [],
               desa: [],
               sumberdana: [],
-              program: [],
-              masterprog: [],
-              datatahun: [],
               input: {
                 uraian: '',
-                id_sd: 0,
-                id_prog: 0,
-                tahun: 0,
+                id_sd: 0
               },
               token: localStorage.getItem('Token'),
               url: localStorage.getItem('url'),
@@ -171,17 +135,15 @@
         },
         mounted() {
             this.loading = true
-            this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
             axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
             this.getDatas()
         },
         methods: {
 
             btnTambah: function(){
-                this.getTahun()
+                this.input.id_sd = 0
                 this.getSumberDana()
                 this.tambah = true
-                this.input.id_prog = 0
             },
 
             btnBack: function(){
@@ -190,10 +152,9 @@
             },
 
             btnEdit: function(dat){
-                this.getTahun()
                 this.getSumberDana()
                 if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
-                axios.get(`${apiHost}data/edit-data-bansos/${dat.id}-${this.url}`)
+                axios.get(`${apiHost}data/edit-data-master-program/${dat.id}-${this.url}`)
                 .then(resp => {
                     // console.log(resp);
                     if(resp.data){
@@ -203,7 +164,6 @@
                             this.input = resp.data.data
                             this.tambah = true
                             this.edit = true
-                            this.getMasterProg()
                         }
                     }
                 }).catch(error => {
@@ -211,15 +171,9 @@
                 })
             },
 
-            btnLihatDetail: function(dat){
-                if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
-                // console.log(dat);
-                window.location.href = `/data/entri-bansos/detail-${dat.id}-${dat.slug}/${this.url}`
-            },
-
             getDatas: function() {
                 if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
-                axios.get(`${apiHost}data/get-data-bansos/${this.url}`)
+                axios.get(`${apiHost}data/get-data-master-program/${this.url}`)
                 .then(resp => {
                     // console.log(resp);
                     if(resp.data){
@@ -245,7 +199,7 @@
                 for( var key in dat ){
                     this.formData.append(key, dat[key])
                 }
-                axios.post(`${apiHost}data/tambah-data-bansos/${this.url}`, this.formData, {
+                axios.post(`${apiHost}data/tambah-data-master-program/${this.url}`, this.formData, {
                     headers: {'Content-Type': 'multipart/form-data'},
                 })
                 .then(resp => {
@@ -259,7 +213,7 @@
                           this.formLoading = false
                           this.clearForm()
                           this.data  = resp.data.data.data
-                          console.log(resp);
+                          // console.log(resp);
                       }, 1500);
                     }
                 }).catch(error => {
@@ -274,7 +228,7 @@
                 for( var key in dat ){
                     this.formData.append(key, dat[key])
                 }
-                axios.post(`${apiHost}data/edit-data-bansos/${dat.id}-${this.url}`, this.formData, {
+                axios.post(`${apiHost}data/edit-data-master-program/${dat.id}-${this.url}`, this.formData, {
                     headers: {'Content-Type': 'multipart/form-data'},
                 })
                 .then(resp => {
@@ -315,7 +269,7 @@
 
             actHapusData: function(dat) {
                 this.loading = true
-                axios.post(`${apiHost}data/hapus-data-bansos/${this.url}`,{
+                axios.post(`${apiHost}data/hapus-data-master-program/${this.url}`,{
                     id : dat.id
                 })
                 .then(resp => {
@@ -345,34 +299,10 @@
                 })
             },
 
-            getTahun: function() {
-                this.input.tahun = 0
-                axios.get(`${apiHost}ref/get-master-tahun/${this.url}`)
-                .then(resp => {
-                    if(resp.data.length){
-                        this.datatahun = resp.data
-                    }
-                    console.log(resp);
-                })
-            },
-
-            getMasterProg: function() {
-                axios.get(`${apiHost}data/get-data-master-program-sumber-dana/${this.url}?id_sd=${this.input.id_sd}`)
-                .then(resp => {
-                    if(resp.data.length){
-                        this.masterprog = resp.data
-                    }
-                    console.log(resp);
-                })
-            },
-
-
             clearForm: function(){
                 this.input = {
+                    judul: '',
                     uraian: '',
-                    tahun: 0,
-                    id_sd: 0,
-                    id_prog: 0,
                 }
             }
 
@@ -380,7 +310,7 @@
 
         computed: {
             validForm() {
-                return this.input.tahun != 0 && this.input.id_sd != 0 && this.input.id_prog != 0 && this.input.uraian != ''
+                return this.input.id_sd != 0 && this.input.uraian != ''
             },
         },
     }

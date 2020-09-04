@@ -121,6 +121,14 @@
               				<div class="box ">
               					<input @change="addFile()" type="file" ref="file"  multiple />
               				</div>
+                      <div v-show="progressBar" class="progress">
+                          <div class="progress-bar " role="progressbar"
+                              :style="{width: progressBar + '%'}"
+                              :aria-valuenow="progressBar"
+                              aria-valuemin="0"
+                              aria-valuemax="100">
+                            </div>
+                      </div>
                   </div>
                   <div class="col-md-12 pl-1 pull-left">
                       <button v-show="!edit" :disabled="!validForm ? true : formLoading " class="btn col-md-2 btn-primary btn-block form-control active" @click="TambahData(input)"><i class="now-ui-icons files_single-copy-04"></i> Simpan</button>
@@ -173,7 +181,8 @@
               edit : false,
               tambah: false,
               attachmentName: '',
-              attachment: []
+              attachment: [],
+              progressBar: 0,
 
             }
         },
@@ -319,6 +328,9 @@
 
                 axios.post(`${apiHost}data/tambah-data-penerima-bansos/${this.url}`, this.formData, {
                     headers: {'Content-Type': 'multipart/form-data'},
+                    onUploadProgress: function( progressEvent ) {
+                        this.progressBar = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total))
+                    }.bind(this)
                 })
                 .then(resp => {
                     if(resp.data.error === 1){
@@ -332,6 +344,8 @@
                           this.clearForm()
                           this.penerima  = resp.data.data.data
                           // console.log(resp);
+                          this.$refs.file.value  = ''
+                          this.progressBar = 0
                       }, 1500);
                     }
                 }).catch(error => {

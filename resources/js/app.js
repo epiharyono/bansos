@@ -25,6 +25,8 @@ Vue.component('bansos-detail-component', require('./components/data/BansosDetail
 
 Vue.component('penduduk-component', require('./components/data/PendudukComponent.vue').default);
 
+Vue.component('data-master-component', require('./components/master/MasterProgramComponent.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

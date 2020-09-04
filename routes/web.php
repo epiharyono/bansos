@@ -6,6 +6,9 @@ Route::group(['prefix'=>'/'], function() {
     Route::get('/','HomeController@index');
     Route::get('/home','HomeController@index');
     Route::post('/get-header/{url}','HomeController@GetHeader');
+
+    Route::get('/guzzle','GuzzleController@index');
+    Route::post('/guzzle','GuzzleController@index');
 });
 
 Route::group(['prefix'=>'data','middleware'=>'api'], function() {

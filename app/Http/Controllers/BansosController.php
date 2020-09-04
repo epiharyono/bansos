@@ -15,7 +15,7 @@ class BansosController extends Controller
         $id     = $split[1];
         $bansos = DB::table('ta_bansos')->where('id',$id)->first();
         if($bansos){
-            $data['title']  = $bansos->judul;
+            $data['title']  = $bansos->uraian;
             $data['id']     = $bansos->id;
             return view('bansos_detail',$data);
         }else{
@@ -28,9 +28,13 @@ class BansosController extends Controller
         foreach($data as $dat){
             $datas[]  = [
               'id'    => $dat->id,
-              'judul'  => $dat->judul,
+              'tahun'   => $dat->tahun,
+              'uraian_sd'   => $dat->uraian_sd,
+              'id_sd'   => $dat->id_sd,
+              'id_prog'   => $dat->id_prog,
+              'uraian_prog'   => $dat->uraian_prog,
               'uraian'   => $dat->uraian,
-              'slug'  => Str::slug($dat->judul),
+              'slug'  => Str::slug($dat->uraian_prog.'-'.$dat->uraian),
             ];
         }
         if(!sizeOf($data)) $datas  = '';
@@ -44,7 +48,6 @@ class BansosController extends Controller
         if($bansos){
             $data = [
               'id'  => $bansos->id,
-              'judul' => $bansos->judul,
               'uraian'  => $bansos->uraian,
             ];
             $error = 0; $pesan = ''; $login = 1;
@@ -55,9 +58,16 @@ class BansosController extends Controller
     }
 
     static function TambahData($req){
+        $sd  = DB::table('ref_sumber_dana')->where('id',$req->id_sd)->value('uraian');
+        $prog  = DB::table('ref_program')->where('id',$req->id_prog)->value('uraian');
+
         DB::table('ta_bansos')->insert([
-          'judul'  => $req->judul,
-          'uraian'   => $req->uraian,
+          'uraian'  => $req->uraian,
+          'tahun'   => $req->tahun,
+          'id_sd'   => $req->id_sd,
+          'uraian_sd' => $sd,
+          'id_prog'   => $req->id_prog,
+          'uraian_prog' => $prog,
           'created_by'  => json_encode(['id'=>Auth::id(), 'name'=>Auth::user()->name,'email'=>Auth::user()->email]),
           'updated_by'  => json_encode(['id'=>Auth::id(), 'name'=>Auth::user()->name,'email'=>Auth::user()->email]),
         ]);
@@ -67,9 +77,15 @@ class BansosController extends Controller
 
     static function EditData($url,$req){
         if(\Request::isMethod('POST')){
+            $sd  = DB::table('ref_sumber_dana')->where('id',$req->id_sd)->value('uraian');
+            $prog  = DB::table('ref_program')->where('id',$req->id_prog)->value('uraian');
             DB::table('ta_bansos')->where('id',$req->id)->update([
-              'judul'  => $req->judul,
               'uraian'   => $req->uraian,
+              'tahun'   => $req->tahun,
+              'id_sd'   => $req->id_sd,
+              'uraian_sd' => $sd,
+              'id_prog'   => $req->id_prog,
+              'uraian_prog' => $prog,
               'updated_by'  => json_encode(['id'=>Auth::id(), 'name'=>Auth::user()->name,'email'=>Auth::user()->email]),
             ]);
             return ['error'=>0,'pesan'=>'Edit Data Berhasil','data'=>self::GetDatas()];
@@ -81,8 +97,10 @@ class BansosController extends Controller
         if($bansos){
             $data = [
               'id'  => $bansos->id,
-              'judul' => $bansos->judul,
               'uraian'  => $bansos->uraian,
+              'id_sd' => $bansos->id_sd,
+              'tahun' => $bansos->tahun,
+              'id_prog' => $bansos->id_prog
             ];
             $error = 0; $pesan = '';
         }else{
@@ -104,7 +122,7 @@ class BansosController extends Controller
         foreach($bansos as $dat){
             $data[]  = [
               'id'  => $dat->id,
-              'judul' => $dat->judul
+              'judul' => $dat->uraian
             ];
         }
         if(!sizeOf($bansos)) $data = '';

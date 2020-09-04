@@ -3,6 +3,11 @@
 use Illuminate\Http\Request;
 
 
+Route::group(['prefix'=>'/guzzle'], function() {
+    Route::get('/','GuzzleController@Resp');
+    Route::post('/','GuzzleController@Resp');
+});
+
 Route::prefix('v1')->group(function () {
 
     Route::prefix('auth')->group(function () {
@@ -32,6 +37,16 @@ Route::prefix('v1')->group(function () {
         Route::post('/{satu}','DataRouteController@IndexRouteSatu');
         Route::post('/{satu}/{dua}','DataRouteController@IndexRouteDua');
         Route::post('/{satu}/{dua}/{tiga}','DataRouteController@IndexRouteTiga');
+    });
+
+    Route::group(['prefix'=>'ref'], function() {
+        Route::get('/','GetReferensiController@index');
+        Route::get('/{satu}','GetReferensiController@IndexRouteSatu');
+        Route::get('/{satu}/{dua}','GetReferensiController@IndexRouteDua');
+        Route::get('/{satu}/{dua}/{tiga}','GetReferensiController@IndexRouteTiga');
+        Route::post('/{satu}','GetReferensiController@IndexRouteSatu');
+        Route::post('/{satu}/{dua}','GetReferensiController@IndexRouteDua');
+        Route::post('/{satu}/{dua}/{tiga}','GetReferensiController@IndexRouteTiga');
     });
 
     Route::group(['prefix'=>'guest'], function() {
