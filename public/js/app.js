@@ -99426,7 +99426,8 @@ __webpack_require__.r(__webpack_exports__);
 // export default {
 //     BASE_URL : 'http://localhost/api/v1/'
 // }
-var baseUrl = 'http://localhost/api/v1/';
+var baseUrl = 'http://localhost/api/v1/'; // let baseUrl = 'http://bansos.anambaskab.go.id:808/api/v1/'
+
 var apiHost = baseUrl;
 
 /***/ }),
