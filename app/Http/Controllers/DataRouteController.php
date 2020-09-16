@@ -34,6 +34,7 @@ class DataRouteController extends Controller
         elseif($satu == 'entri-penduduk') return Data::IndexPenduduk();
         elseif($satu == 'tambah-data-penduduk') return Penduduk::TambahDataPenduduk($req);
         elseif($satu == 'get-data-penduduk') return Penduduk::GetDatas();
+        elseif($satu == 'hapus-data-penduduk') return Penduduk::HapusData($req);
 
         elseif($satu == 'get-data-sumber-dana') return Data::GetSumberDana();
         elseif($satu == 'entri-master-program') return Data::IndexMaster();

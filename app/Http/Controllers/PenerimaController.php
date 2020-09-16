@@ -24,6 +24,7 @@ class PenerimaController extends Controller
               'id'    => $dat->id,
               'nama'  => $dat->nama,
               'nik'   => $dat->nik,
+              'uang'   => $dat->uang,
               'id_jenis'   => $dat->id_jenis,
               'keterangan'   => $dat->keterangan,
               'alamat'  => $dat->alamat,
@@ -45,12 +46,11 @@ class PenerimaController extends Controller
             $nm_kab   = DB::table('ref_regencies')->where('id',$cek->id_kab)->value('name');
             $nm_kec   = DB::table('ref_districts')->where('id',$cek->id_kec)->value('name');
             $nm_desa  = DB::table('ref_villages')->where('id',$cek->id_desa)->value('name');
-            if($req->id_jenis == 1) $blt  = $req->uang;
-            else $blt = 0;
+            
             $id_table  = DB::table('ta_penerima')->insertGetId([
               'id_bansos'  => $req->id_bansos,
               'id_jenis'  => $req->id_jenis,
-              'blt'  => $blt,
+              'uang'  => $req->uang,
               'keterangan'  => $req->keterangan,
               'nama'  => $cek->nama,
               'nik'   => $cek->nik,

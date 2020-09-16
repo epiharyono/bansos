@@ -33,6 +33,7 @@
                       <th>NIK</th>
                       <th>Alamat</th>
                       <th>Jenis</th>
+                      <th>Sejumlah</th>
                       <th>Keterangan</th>
                       <th>File</th>
                       <th class="td-actions text-right">Act</th>
@@ -50,6 +51,7 @@
                           <td>{{ datp.nik }}</td>
                           <td>{{ datp.alamat }}</td>
                           <td>{{ datp.nm_jenis }}</td>
+                          <td>{{ datp.uang }}</td>
                           <td>{{ datp.keterangan }}</td>
                           <td>{{ datp.file }}</td>
                           <td class="td-actions text-right">
@@ -106,7 +108,7 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div v-if="input.id_jenis == 1" class="col-md-12 pr-2">
+                    <div class="col-md-12 pr-2">
                       <div class="form-group">
                         <input :disabled="formLoading" type="number" class="form-control" v-model="input.uang" placeholder="Input Jumlah Uang....">
                       </div>
@@ -469,7 +471,7 @@
 
         computed: {
             validForm() {
-                return this.input.id_jenis != '' && this.input.keterangan != '' && this.input.id_pend != ''
+                return this.input.id_jenis != 0 && this.input.keterangan != '' && this.input.id_pend != ''
             },
         },
     }

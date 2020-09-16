@@ -28,19 +28,30 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
+                      <th>KK</th>
                       <th>Nama</th>
                       <th>NIK</th>
                       <th>Kecamatan</th>
                       <th>Desa/Kelurahan</th>
                       <th>Alamat</th>
+                      <th>Act</th>
                     </thead>
                     <tbody>
                       <tr v-for="(dat, index) in data">
+                        <td>{{ dat.kk }}</td>
                         <td>{{ dat.nama }}</td>
                         <td>{{ dat.nik }}</td>
                         <td>{{ dat.nm_kec }}</td>
                         <td>{{ dat.nm_desa }}</td>
                         <td>{{ dat.alamat }}</td>
+                        <td class="td-actions">
+                          <button @click="btnEdit(dat)" type="button" rel="tooltip" class="btn btn-success btn-link" data-original-title="" title="">
+                            <i class="now-ui-icons shopping_tag-content"></i>
+                          </button>
+                          <button @click="btnDelConfirm(dat)" type="button" rel="tooltip" class="btn btn-danger btn-link" data-original-title="" title="">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -61,7 +72,14 @@
                   <div class="row">
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
-                        <input :disabled="formLoading" type="email" class="form-control" v-model="input.nama" placeholder="Nama Penduduk....">
+                        <input :disabled="formLoading" type="text" class="form-control" v-model="input.nama" placeholder="Nama Penduduk....">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <input :disabled="formLoading" type="text" class="form-control" v-model="input.kk" placeholder="Nomor Kartu Keluarga....">
                       </div>
                     </div>
                     <div class="col-md-6 pl-1">
@@ -194,6 +212,7 @@
                 tempat: '',
                 tanggal: '',
                 alamat: '',
+                kk: '',
                 id_prov: 0,
                 id_kab: 0,
                 id_kec: 0,
@@ -248,6 +267,68 @@
                 this.getDataKab()
                 this.getDataKec()
                 this.getDataDesa()
+            },
+
+            btnEdit: function(dat){
+                this.getTahun()
+                this.getSumberDana()
+                if(!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas'
+                axios.get(`${apiHost}data/edit-data-bansos/${dat.id}-${this.url}`)
+                .then(resp => {
+                    // console.log(resp);
+                    if(resp.data){
+                        if(resp.data.error){
+                            this.$toastr('error', resp.data.pesan , 'Error Information')
+                        }else{
+                            this.input = resp.data.data
+                            this.tambah = true
+                            this.edit = true
+                            this.getMasterProg()
+                        }
+                    }
+                }).catch(error => {
+                    this.$toastr('error', 'Data Tidak Ditemukan', 'Error Information')
+                })
+            },
+
+            btnDelConfirm: function(dat) {
+                this.$swal({
+                  title: 'Konfirmasi',
+                  text: 'Apakah ingin menghapus data ini?',
+                  showCancelButton: true,
+                  confirmButtonText: 'Ya',
+                  cancelButtonText: 'No',
+                  showCloseButton: true,
+                }).then((result) => {
+                  if(result.value) {
+                    this.actHapusData(dat)
+                  } else {
+                    this.$toastr('success', 'Data tidak dihapus', 'Informasi')
+                  }
+                })
+            },
+
+            actHapusData: function(dat) {
+                this.loading = true
+                axios.post(`${apiHost}data/hapus-data-penduduk/${this.url}`,{
+                    id : dat.id
+                })
+                .then(resp => {
+                    console.log(resp);
+                    if(resp.data.error == 1){
+                      this.loading = false
+                      this.$toastr('error', resp.data.pesan , 'Error Information')
+                    }else{
+                      this.$toastr('success', resp.data.pesan , 'Success Information')
+                      setTimeout(() => {
+                          this.loading = false
+                          this.data  = resp.data.data.data
+                      }, 1500)
+                    }
+
+                }).catch(error => {
+                    this.$toastr('error', 'Gagal Hapus Data', 'Error Information')
+                })
             },
 
             btnBack: function(){
@@ -353,6 +434,7 @@
                     tanggal: '',
                     tempat: '',
                     alamat: '',
+                    kk: '',
                 }
             }
 
@@ -366,7 +448,7 @@
             },
 
             validForm() {
-                return this.input.nama != '' && this.input.nik != '' && this.input.alamat != '' && this.input.tempat != '' && this.input.tanggal != '' && this.input.id_prov != '' && this.input.id_kab != '' && this.input.id_kec != '' && this.input.id_desa != ''
+                return this.input.nama != '' && this.input.nik != '' && this.input.kk != '' && this.input.alamat != '' && this.input.tempat != '' && this.input.tanggal != '' && this.input.id_prov != '' && this.input.id_kab != '' && this.input.id_kec != '' && this.input.id_desa != ''
             },
         },
     }

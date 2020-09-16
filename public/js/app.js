@@ -3556,6 +3556,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 // import axios from 'axios'
 
 Vue.http = _utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"];
@@ -3885,7 +3887,7 @@ Vue.http = _utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"];
   },
   computed: {
     validForm: function validForm() {
-      return this.input.id_jenis != '' && this.input.keterangan != '' && this.input.id_pend != '';
+      return this.input.id_jenis != 0 && this.input.keterangan != '' && this.input.id_pend != '';
     }
   }
 });
@@ -3902,6 +3904,24 @@ Vue.http = _utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"];
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils */ "./resources/js/utils/index.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4096,6 +4116,7 @@ Vue.http = _utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"];
         tempat: '',
         tanggal: '',
         alamat: '',
+        kk: '',
         id_prov: 0,
         id_kab: 0,
         id_kec: 0,
@@ -4150,12 +4171,78 @@ Vue.http = _utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"];
       this.getDataKec();
       this.getDataDesa();
     },
+    btnEdit: function btnEdit(dat) {
+      var _this2 = this;
+
+      this.getTahun();
+      this.getSumberDana();
+      if (!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas';
+      axios.get("".concat(_utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"], "data/edit-data-bansos/").concat(dat.id, "-").concat(this.url)).then(function (resp) {
+        // console.log(resp);
+        if (resp.data) {
+          if (resp.data.error) {
+            _this2.$toastr('error', resp.data.pesan, 'Error Information');
+          } else {
+            _this2.input = resp.data.data;
+            _this2.tambah = true;
+            _this2.edit = true;
+
+            _this2.getMasterProg();
+          }
+        }
+      })["catch"](function (error) {
+        _this2.$toastr('error', 'Data Tidak Ditemukan', 'Error Information');
+      });
+    },
+    btnDelConfirm: function btnDelConfirm(dat) {
+      var _this3 = this;
+
+      this.$swal({
+        title: 'Konfirmasi',
+        text: 'Apakah ingin menghapus data ini?',
+        showCancelButton: true,
+        confirmButtonText: 'Ya',
+        cancelButtonText: 'No',
+        showCloseButton: true
+      }).then(function (result) {
+        if (result.value) {
+          _this3.actHapusData(dat);
+        } else {
+          _this3.$toastr('success', 'Data tidak dihapus', 'Informasi');
+        }
+      });
+    },
+    actHapusData: function actHapusData(dat) {
+      var _this4 = this;
+
+      this.loading = true;
+      axios.post("".concat(_utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"], "data/hapus-data-penduduk/").concat(this.url), {
+        id: dat.id
+      }).then(function (resp) {
+        console.log(resp);
+
+        if (resp.data.error == 1) {
+          _this4.loading = false;
+
+          _this4.$toastr('error', resp.data.pesan, 'Error Information');
+        } else {
+          _this4.$toastr('success', resp.data.pesan, 'Success Information');
+
+          setTimeout(function () {
+            _this4.loading = false;
+            _this4.data = resp.data.data.data;
+          }, 1500);
+        }
+      })["catch"](function (error) {
+        _this4.$toastr('error', 'Gagal Hapus Data', 'Error Information');
+      });
+    },
     btnBack: function btnBack() {
       this.tambah = false;
       this.clearForm();
     },
     getDatas: function getDatas() {
-      var _this2 = this;
+      var _this5 = this;
 
       if (!this.url) this.url = 'bantuan-sosial-kabupaten-kepulauan-anambas';
       axios.get("".concat(_utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"], "data/get-data-penduduk/").concat(this.url)).then(function (resp) {
@@ -4163,22 +4250,22 @@ Vue.http = _utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"];
 
         if (resp.data) {
           if (!resp.data.authr) {
-            _this2.isLogin = 0;
+            _this5.isLogin = 0;
           } else {
-            _this2.data = resp.data.data;
-            _this2.isLogin = 1;
+            _this5.data = resp.data.data;
+            _this5.isLogin = 1;
           }
 
-          _this2.formLoading = true;
+          _this5.formLoading = true;
           setTimeout(function () {
-            _this2.loading = false;
-            _this2.formLoading = false;
+            _this5.loading = false;
+            _this5.formLoading = false;
           }, 1500);
         }
       });
     },
     TambahData: function TambahData(dat) {
-      var _this3 = this;
+      var _this6 = this;
 
       this.formLoading = true;
       this.formData = new FormData();
@@ -4193,64 +4280,64 @@ Vue.http = _utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"];
         }
       }).then(function (resp) {
         if (resp.data.error === 1) {
-          _this3.$toastr('error', resp.data.pesan, 'Error Information');
+          _this6.$toastr('error', resp.data.pesan, 'Error Information');
 
-          _this3.formLoading = false;
+          _this6.formLoading = false;
         } else {
-          _this3.$toastr('success', resp.data.pesan, 'Information');
+          _this6.$toastr('success', resp.data.pesan, 'Information');
 
           setTimeout(function () {
-            _this3.tambah = false;
-            _this3.formLoading = false;
+            _this6.tambah = false;
+            _this6.formLoading = false;
 
-            _this3.clearForm();
+            _this6.clearForm();
 
-            _this3.data = resp.data.data.data;
+            _this6.data = resp.data.data.data;
             console.log(resp);
           }, 1500);
         }
       })["catch"](function (error) {
-        _this3.$toastr('error', 'Gagal Tambah Data', 'Error Information');
+        _this6.$toastr('error', 'Gagal Tambah Data', 'Error Information');
       });
     },
     getDataProvinsi: function getDataProvinsi() {
-      var _this4 = this;
+      var _this7 = this;
 
       this.input.id_kab = 0;
       this.input.id_kec = 0;
       this.input.id_desa = 0;
       axios.get("".concat(_utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"], "data/get-data-provinsis/").concat(this.url)).then(function (resp) {
-        _this4.provinsi = resp.data;
+        _this7.provinsi = resp.data;
       });
     },
     getDataKab: function getDataKab() {
-      var _this5 = this;
+      var _this8 = this;
 
       this.input.id_kab = 0;
       this.input.id_kec = 0;
       this.input.id_desa = 0;
       axios.get("".concat(_utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"], "data/get-data-kabupatens/").concat(this.url, "?id_prov=").concat(this.input.id_prov)).then(function (resp) {
-        _this5.kabupaten = resp.data;
-        _this5.kecamatan = [];
-        _this5.desa = [];
+        _this8.kabupaten = resp.data;
+        _this8.kecamatan = [];
+        _this8.desa = [];
       });
     },
     getDataKec: function getDataKec() {
-      var _this6 = this;
+      var _this9 = this;
 
       this.input.id_kec = 0;
       this.input.id_desa = 0;
       axios.get("".concat(_utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"], "data/get-data-kecamatans/").concat(this.url, "?id_kab=").concat(this.input.id_kab)).then(function (resp) {
-        _this6.kecamatan = resp.data;
-        _this6.desa = [];
+        _this9.kecamatan = resp.data;
+        _this9.desa = [];
       });
     },
     getDataDesa: function getDataDesa() {
-      var _this7 = this;
+      var _this10 = this;
 
       this.input.id_desa = 0;
       axios.get("".concat(_utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"], "data/get-data-desas/").concat(this.url, "?id_kec=").concat(this.input.id_kec)).then(function (resp) {
-        _this7.desa = resp.data;
+        _this10.desa = resp.data;
       });
     },
     clearForm: function clearForm() {
@@ -4259,7 +4346,8 @@ Vue.http = _utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"];
         nik: '',
         tanggal: '',
         tempat: '',
-        alamat: ''
+        alamat: '',
+        kk: ''
       };
     }
   },
@@ -4270,7 +4358,7 @@ Vue.http = _utils__WEBPACK_IMPORTED_MODULE_0__["apiHost"];
       };
     },
     validForm: function validForm() {
-      return this.input.nama != '' && this.input.nik != '' && this.input.alamat != '' && this.input.tempat != '' && this.input.tanggal != '' && this.input.id_prov != '' && this.input.id_kab != '' && this.input.id_kec != '' && this.input.id_desa != '';
+      return this.input.nama != '' && this.input.nik != '' && this.input.kk != '' && this.input.alamat != '' && this.input.tempat != '' && this.input.tanggal != '' && this.input.id_prov != '' && this.input.id_kab != '' && this.input.id_kec != '' && this.input.id_desa != '';
     }
   }
 });
@@ -83200,6 +83288,8 @@ var render = function() {
                             _vm._v(" "),
                             _c("th", [_vm._v("Jenis")]),
                             _vm._v(" "),
+                            _c("th", [_vm._v("Sejumlah")]),
+                            _vm._v(" "),
                             _c("th", [_vm._v("Keterangan")]),
                             _vm._v(" "),
                             _c("th", [_vm._v("File")]),
@@ -83239,6 +83329,8 @@ var render = function() {
                                       _c("td", [_vm._v(_vm._s(datp.alamat))]),
                                       _vm._v(" "),
                                       _c("td", [_vm._v(_vm._s(datp.nm_jenis))]),
+                                      _vm._v(" "),
+                                      _c("td", [_vm._v(_vm._s(datp.uang))]),
                                       _vm._v(" "),
                                       _c("td", [
                                         _vm._v(_vm._s(datp.keterangan))
@@ -83501,41 +83593,39 @@ var render = function() {
                         : _vm._e(),
                       _vm._v(" "),
                       _c("div", { staticClass: "row" }, [
-                        _vm.input.id_jenis == 1
-                          ? _c("div", { staticClass: "col-md-12 pr-2" }, [
-                              _c("div", { staticClass: "form-group" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.input.uang,
-                                      expression: "input.uang"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    disabled: _vm.formLoading,
-                                    type: "number",
-                                    placeholder: "Input Jumlah Uang...."
-                                  },
-                                  domProps: { value: _vm.input.uang },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.input,
-                                        "uang",
-                                        $event.target.value
-                                      )
-                                    }
+                        _c("div", { staticClass: "col-md-12 pr-2" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.input.uang,
+                                  expression: "input.uang"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                disabled: _vm.formLoading,
+                                type: "number",
+                                placeholder: "Input Jumlah Uang...."
+                              },
+                              domProps: { value: _vm.input.uang },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
                                   }
-                                })
-                              ])
-                            ])
-                          : _vm._e(),
+                                  _vm.$set(
+                                    _vm.input,
+                                    "uang",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12 pr-2" }, [
                           _c("div", { staticClass: "form-group" }, [
@@ -83840,6 +83930,8 @@ var render = function() {
                       _c("div", { staticClass: "table-responsive" }, [
                         _c("table", { staticClass: "table" }, [
                           _c("thead", { staticClass: " text-primary" }, [
+                            _c("th", [_vm._v("KK")]),
+                            _vm._v(" "),
                             _c("th", [_vm._v("Nama")]),
                             _vm._v(" "),
                             _c("th", [_vm._v("NIK")]),
@@ -83848,13 +83940,17 @@ var render = function() {
                             _vm._v(" "),
                             _c("th", [_vm._v("Desa/Kelurahan")]),
                             _vm._v(" "),
-                            _c("th", [_vm._v("Alamat")])
+                            _c("th", [_vm._v("Alamat")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Act")])
                           ]),
                           _vm._v(" "),
                           _c(
                             "tbody",
                             _vm._l(_vm.data, function(dat, index) {
                               return _c("tr", [
+                                _c("td", [_vm._v(_vm._s(dat.kk))]),
+                                _vm._v(" "),
                                 _c("td", [_vm._v(_vm._s(dat.nama))]),
                                 _vm._v(" "),
                                 _c("td", [_vm._v(_vm._s(dat.nik))]),
@@ -83863,7 +83959,57 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("td", [_vm._v(_vm._s(dat.nm_desa))]),
                                 _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(dat.alamat))])
+                                _c("td", [_vm._v(_vm._s(dat.alamat))]),
+                                _vm._v(" "),
+                                _c("td", { staticClass: "td-actions" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-success btn-link",
+                                      attrs: {
+                                        type: "button",
+                                        rel: "tooltip",
+                                        "data-original-title": "",
+                                        title: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.btnEdit(dat)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass:
+                                          "now-ui-icons shopping_tag-content"
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-danger btn-link",
+                                      attrs: {
+                                        type: "button",
+                                        rel: "tooltip",
+                                        "data-original-title": "",
+                                        title: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.btnDelConfirm(dat)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass:
+                                          "now-ui-icons ui-1_simple-remove"
+                                      })
+                                    ]
+                                  )
+                                ])
                               ])
                             }),
                             0
@@ -83922,7 +84068,7 @@ var render = function() {
                               staticClass: "form-control",
                               attrs: {
                                 disabled: _vm.formLoading,
-                                type: "email",
+                                type: "text",
                                 placeholder: "Nama Penduduk...."
                               },
                               domProps: { value: _vm.input.nama },
@@ -83936,6 +84082,38 @@ var render = function() {
                                     "nama",
                                     $event.target.value
                                   )
+                                }
+                              }
+                            })
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-6 pr-1" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.input.kk,
+                                  expression: "input.kk"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                disabled: _vm.formLoading,
+                                type: "text",
+                                placeholder: "Nomor Kartu Keluarga...."
+                              },
+                              domProps: { value: _vm.input.kk },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(_vm.input, "kk", $event.target.value)
                                 }
                               }
                             })

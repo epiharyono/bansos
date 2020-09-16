@@ -10,13 +10,14 @@ class PendudukController extends Controller
 {
 
     static function GetDatas(){
-        $data  = DB::table('ta_penduduk')->orderBy('id','DESC')->get();
+        $data  = DB::table('ta_penduduk')->where('status',1)->orderBy('id','DESC')->get();
         foreach($data as $dat){
             $nm_kec   = strtolower($dat->nm_kec);
             $nm_desa  = strtolower($dat->nm_desa);
             $datas[]  = [
               'id'    => $dat->id,
               'nama'  => $dat->nama,
+              'kk'   => $dat->kk,
               'nik'   => $dat->nik,
               'tempat'   => $dat->tempat,
               'tanggal'   => $dat->tanggal,
@@ -40,6 +41,7 @@ class PendudukController extends Controller
             $nm_desa  = DB::table('ref_villages')->where('id',$req->id_desa)->value('name');
             DB::table('ta_penduduk')->insert([
               'nama'  => $req->nama,
+              'kk'   => $req->kk,
               'nik'   => $req->nik,
               'tempat'   => $req->tempat,
               'tanggal'   => $req->tanggal,
@@ -63,12 +65,17 @@ class PendudukController extends Controller
     static function CheckNIK($url){
         $split  = explode("-", $url);
         $nik    = $split[0];
-        $pend   = DB::table('ta_penduduk')->where('nik',$nik)->first();
+        $pend   = DB::table('ta_penduduk')->where('status',1)->where('nik',$nik)->first();
         if($pend){
             $identitas  = $pend->nm_prov.' '.$pend->nm_kab.' '.$pend->nm_kec.' '.$pend->nm_desa.'<br>'.$pend->alamat;
             return ['status'=>1, 'id'=>$pend->id,'nama'=>$pend->nama,'alamat'=>$pend->alamat,'prov'=>$pend->nm_prov, 'identitas'=>$identitas];
         }
         else return ['status'=>0,'nama'=>'Data Tidak Ditemukan'];
 
+    }
+
+    static function HapusData($req){
+        DB::table('ta_penduduk')->where('id',$req->id)->update(['status'=>0]);
+        return [ 'error'=>0,'pesan'=>'Data Berhasil Dihapus', 'data'=>self::GetDatas() ];
     }
 }

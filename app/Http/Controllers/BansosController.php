@@ -111,6 +111,10 @@ class BansosController extends Controller
 
     static function HapusData($req){
         if(\Request::isMethod('POST')){
+            $cek = DB::table('ta_penerima')->where('id_bansos',$req->id)->count();
+            if($cek){
+                return ['error'=>1,'pesan'=>'Hapus Data Penerima Dahulu','data'=>self::GetDatas()];
+            }
             $del = DB::table('ta_bansos')->where('id',$req->id)->delete();
             if($del) return ['error'=>0,'pesan'=>'Hapus Data Berhasil','data'=>self::GetDatas()];
             else return ['error'=>1,'pesan'=>'Hapus Data Gagal','data'=>self::GetDatas()];
