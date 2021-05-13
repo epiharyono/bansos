@@ -13,6 +13,156 @@
 - KK
 
 
+RAPAT BESOK :
+- KESEHATAN
+- PU
+- BPPD
+- SEKDA
+
+
+Belanja Jasa Tenaga Pendidikan
+Digunakan untuk mencatat belanja jasa tenaga pendidikan.
+
+Belanja Jasa Tenaga Kesehatan
+Digunakan untuk mencatat belanja jasa tenaga kesehatan.
+
+Belanja Jasa Tenaga Laboratorium
+Digunakan untuk mencatat belanja jasa tenaga laboratorium.
+
+Belanja Jasa Tenaga Penanganan Prasarana dan Sarana Umum
+Digunakan untuk mencatat belanja jasa tenaga penanganan prasarana dan sarana umum.
+
+Belanja   Jasa   Tenaga   Ketenteraman, Ketertiban   Umum, dan   Perlindungan Masyarakat
+Digunakan untuk mencatat belanja jasa tenaga ketenteraman, ketertiban umum, dan perlindungan masyarakat.
+
+Belanja Jasa Tenaga Pemadam Kebakaran dan Penyelamatan
+Digunakan untuk mencatat belanja jasa tenaga    pemadam    kebakaran    dan penyelamatan.
+
+Belanja Jasa Tenaga Penanganan Bencana
+Digunakan untuk mencatat belanja jasa tenaga penanganan bencana.
+
+Belanja Jasa Tenaga Penanganan Sosial
+Digunakan untuk mencatat belanja jasa tenaga penanganan sosial.
+
+Belanja Jasa Tenaga Sumber Daya Air
+Digunakan untuk mencatat belanja jasa tenaga sumber daya air.
+
+Belanja Jasa Tenaga Perhubungan
+Digunakan untuk mencatat belanja jasa tenaga perhubungan.
+
+Belanja Jasa Tenaga Teknis Pertanian dan Pangan
+Digunakan untuk mencatat belanja jasa tenaga teknis pertanian dan pangan.
+
+Belanja Jasa Tenaga Arsip dan Perpustakaan
+Digunakan untuk mencatat belanja jasa tenaga arsip dan perpustakaan.
+
+Belanja Jasa Tenaga Kesenian dan Kebudayaan
+Digunakan untuk mencatat belanja jasa tenaga kesenian dan kebudayaan.
+
+Belanja Jasa Tenaga Administrasi
+Digunakan untuk mencatat belanja jasa tenaga administrasi.
+
+Belanja Jasa Tenaga Operator Komputer
+Digunakan untuk mencatat belanja jasa tenaga operator komputer.
+
+Belanja Jasa Tenaga Pelayanan Umum
+Digunakan untuk mencatat Belanja Jasa Tenaga Pelayanan Umum antara lain tenaga Resepsionis, tenaga Pramubhakti, tenaga asisten rumah tangga dan sejenisnya.
+
+Belanja Jasa Tenaga Ahli
+Digunakan untuk mencatat belanja jasa tenaga ahli.
+
+Belanja Jasa Tenaga Kebersihan
+Digunakan untuk mencatat belanja jasa tenaga kebersihan.
+
+Belanja Jasa Tenaga Keamanan
+Digunakan untuk mencatat belanja jasa tenaga keamanan.
+
+Belanja Jasa Tenaga Caraka
+Digunakan untuk mencatat belanja jasa pengantar surat dan barang.
+
+Belanja Jasa Tenaga Supir
+Digunakan untuk mencatat belanja jasa tenaga supir.
+
+Belanja Jasa Tenaga Juru Masak
+Digunakan untuk mencatat belanja jasa tenaga juru masak.
+
+Belanja Jasa Tenaga Teknisi Mekanik dan Listrik
+Digunakan untuk mencatat belanja jasa tenaga teknisi mekanik dan listrik.
+
+Belanja Jasa Audit/Surveillance ISO
+Digunakan untuk mencatat belanja jasa audit/surveillance ISO.
+
+Belanja Jasa Juri Perlombaan/Pertandingan
+Digunakan untuk mencatat belanja jasa juri perlombaan/pertandingan.
+
+Belanja Jasa Tata Rias
+Digunakan untuk mencatat belanja jasa tata rias.
+
+Belanja Jasa Tenaga Informasi dan Teknologi
+Digunakan untuk mencatat belanja jasa tenaga informasi dan teknologi.
+
+Belanja Jasa Tenaga Operator Tiket
+Digunakan untuk mencatat belanja jasa tenaga operator tiket yang dilaksanakan oleh pemerintah daerah selain BUMD.
+
+Belanja Jasa Pemasangan Instalasi Telepon, Air, dan Listrik
+Digunakan untuk mencatat belanja jasa pemasangan instalasi telepon, air, dan listrik.
+
+Belanja Jasa   Pelaksanaan   Transaksi Keuangan
+Digunakan untuk mencatat belanja jasa pelaksanaan transaksi keuangan.
+
+Belanja Jasa Penulisan dan Penerjemahan
+Digunakan untuk mencatat belanja jasa penulisan dan penerjemahan.
+
+Belanja Jasa Pelayanan Perpustakaan
+Digunakan untuk mencatat belanja jasa pelayanan perpustakaan.
+
+Belanja Jasa Pelayanan Kearsipan
+Digunakan untuk mencatat belanja jasa pelayanan kearsipan.
+
+Belanja Jasa Konversi Aplikasi/Sistem Informasi
+Digunakan untuk mencatat belanja jasa konversi aplikasi/sistem informasi.
+
+Belanja Jasa Penyelenggaraan Acara
+Digunakan untuk mencatat belanja jasa penyelenggara acara oleh pihak lain.
+
+Belanja Jasa Kontribusi Asosiasi
+Digunakan untuk mencatat belanja jasa kontribusi asosiasi.
+
+Belanja Jasa Pencucian Pakaian, Alat Kesenian dan Kebudayaan, serta Alat Rumah Tangga
+Digunakan untuk mencatat belanja jasa pencucian pakaian, alat kesenian dan kebudayaan, serta alat rumah tangga.
+
+Belanja Jasa Kalibrasi
+Digunakan untuk mencatat belanja jasa kalibrasi.
+
+Belanja Jasa Pengolahan Sampah
+Digunakan untuk mencatat belanja jasa pengolahan   sampah   termasuk   jasa pengambilan/pengumpulan/pengangkutan sampah dan jasa operator dan/atau petugas penanganan angkutan kebersihan.
+
+Belanja Jasa Pembersihan, Pengendalian Hama, dan Fumigasi
+Digunakan untuk mencatat belanja jasa pembersihan, pengendalian hama, dan fumigasi.
+
+Belanja Jasa Pengukuran Tanah
+Digunakan untuk mencatat belanja jasa pengukuran tanah.
+
+Belanja Jasa Jalan/Tol
+Digunakan untuk mencatat belanja jasa jalan/tol.
+
+Belanja Jasa Iklan/Reklame, Film, dan Pemotretan
+Digunakan untuk mencatat belanja jasa iklan/reklame, film, dan pemotretan.
+
+Belanja Jasa Pemindahan Benda Bersejarah
+Digunakan untuk mencatat belanja jasa pemindahan benda bersejarah.
+
+Belanja Jasa Operator Kapal
+Digunakan untuk mencatat belanja jasa tenaga operator kapal antara lain nahkoda, anak buah kapal dan sejenisnya.
+
+Belanja Jasa Penyelaman
+Digunakan untuk mencatat belanja jasa penyelaman.
+
+
+
+- sub kegiatan atk
+
+
 - sembako senilai
 
 dropkan blt
